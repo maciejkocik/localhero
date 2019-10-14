@@ -1,7 +1,7 @@
 <?php
 
 echo '
-<FORM method="POST" action="action.php?page=registration">
+<FORM method="POST" action="action.php">
 
 <h1>Rejestracja</h1>
 
@@ -85,6 +85,8 @@ if(isset($_POST['password2']))
     }
 }
 
-echo '</div>';
+echo '<input type="hidden" name="file" value="registration">
+
+</div>';
 echo '<input type="submit" value"Zarejestruj się">';
 ?>
