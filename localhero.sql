@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Czas generowania: 15 Paź 2019, 19:02
+-- Czas generowania: 15 Paź 2019, 19:37
 -- Wersja serwera: 5.7.19
 -- Wersja PHP: 5.6.31
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Baza danych: `localheroe`
+-- Baza danych: `localhero`
 --
 
 -- --------------------------------------------------------

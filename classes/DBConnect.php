@@ -6,7 +6,7 @@ class DBConnect
 	private $name_user_db = 'root';
 	private $password_user_db = '';
 	private $host = '127.0.0.1';
-	private $db_name = 'localheroe';
+	private $db_name = 'localhero';
 	private static $connectionGlobal = false;
 	private static $resultConnectionGlobal;
 	public $connection;

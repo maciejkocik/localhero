@@ -7,24 +7,33 @@ echo '
 
 <div>';
 
+if(isset($_GET['registration_error']))
+{
+    if($_GET['registration_error'] == 1)
+    {
+        echo '<p>Wystąpił błąd, spróbuj ponownie.</p>';
+    }
+}
+
 echo 'Podaj Login: <input type="text" name="login" maxlength=100 minlength=3 required';
-if(isset($_POST['login']))
+if(isset($_GET['login']))
 {
     if(isset($_GET['login_error']))
     {
-        if($_GET['login_error'] == 0)
+        echo '>';
+        if($_GET['login_error'] == 1)
         {
             echo '<p>Podano błędny login</p>';
         }
-        else if($_GET['login_error'] == 1)
+        else if($_GET['login_error'] == 2)
         {
             echo '<p>Podany login jest zajęty.</p>';
         }
-        echo '>';
+        
     }
     else
     {
-        echo 'value="'.$_POST['login'].'">';
+        echo 'value="'.$_GET['login'].'">';
     }
 }
 else
@@ -33,25 +42,25 @@ else
 }
 
 
-echo 'Podaj e-mail: <input type="email" name="email" maxlength=100 minlength=5';
-if(isset($_POST['email']))
+echo 'Podaj e-mail: <input type="email" name="email" maxlength=100 minlength=5 required';
+if(isset($_GET['email']))
 {
     
     if(isset($_GET['email_error']))
     {
-        if($_GET['email_error'] == 0)
+        echo '>';
+        if($_GET['email_error'] == 1)
         {
             echo '<p>Podano błędny e-mail.</p>';
         }
-        if($_GET['email_error'] == 1)
+        if($_GET['email_error'] == 2)
         {
             echo '<p>Podany e-mail jest zajęty.</p>';
         }
-        echo '>';
     }
     else
     {
-        echo 'value="'.$_POST['email'].'">';
+        echo 'value="'.$_GET['email'].'">';
     }
 }
 else
@@ -60,12 +69,12 @@ else
 }
 
 
-echo 'Podaj hasło (minimum 5 znaków): <input type="password" name="password" maxlength=50 minlength=5>';
-if(isset($_POST['password']))
+echo 'Podaj hasło (minimum 5 znaków): <input type="password" name="password" maxlength=50 minlength=5 required>';
+if(isset($_GET['password']))
 {
     if(isset($_GET['password_error']))
     {
-        if($_GET['password_error'] == 0)
+        if($_GET['password_error'] == 1)
         {
             echo '<p>Podano błędne hasło.</p>';
         }
@@ -73,12 +82,12 @@ if(isset($_POST['password']))
 }
 
 
-echo 'Powtórz hasło: <input type="password" name="password2" maxlength=50 minlength=5>';
-if(isset($_POST['password2']))
+echo 'Powtórz hasło: <input type="password" name="password2" maxlength=50 minlength=5 required>';
+if(isset($_GET['password2']))
 {
     if(isset($_GET['password_error2']))
     {
-        if($_GET['password_error2'] == 0)
+        if($_GET['password_error2'] == 1)
         {
             echo '<p>Powtórzone hasło różni się od pierwotnego.</p>';
         }
