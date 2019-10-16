@@ -9,11 +9,13 @@ class User extends DBConnect
     public $resultRegistrationCheck = false;
     public $resultRegistration = false;
     public $resultGetLastUser = false;
+    public $resultSignIn = false;
     
-    //variables data
+    //data
     public $loginCheck = true;
     public $emailCheck = true;
-    public $lastUser = false;
+    public $lastUser;
+    public $signInList;
 
     public function registrationCheck($login, $email)
     {
@@ -88,6 +90,28 @@ class User extends DBConnect
         {
             $this -> resultGetLastUser = false;
         }
+    }
+
+    public function signIn($login, $password)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT id, login, moderator, status FROM user WHERE login=:login AND password='.$password);
+            $stmt -> bindParam(':login',$login,PDO::PARAM_STR);
+
+            $stmt ->execute();
+
+            $signInList = $stmt -> fetch();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultSignIn = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultSignIn = false;
+		}
     }
 }
 
