@@ -69,7 +69,7 @@ class User extends DBConnect
 		}
     }
 
-    public function getlastId
+    public function getlastId()
     {
         try
         {

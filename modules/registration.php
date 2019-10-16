@@ -9,7 +9,6 @@ echo '
 
 if(isset($_GET['registration_error']))
 {
-    if($_GET['registration_error'] == 1)
     {
         echo '<p>Wystąpił błąd, spróbuj ponownie.</p>';
     }

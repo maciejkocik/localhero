@@ -30,7 +30,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
             {
                 if(! $user -> loginCheck)
                 {
-                    $login_error = 2
+                    $login_error = 2;
                 }
             }
             else
@@ -43,7 +43,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
             {
                 if(! $user -> emailCheck)
                 {
-                    $email_error = 2
+                    $email_error = 2;
                 }
             }
             else
@@ -86,9 +86,10 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
                     if($user -> resultGetLastId)
                     {
                         session_start();
-                        $_SESSION['signed_up'] = true;
+                        $_SESSION['signed_in'] = true;
                         $_SESSION['user_id'] = $user -> lastUser['id'];
                         $_SESSION['user_login'] = $user -> lastUser['login'];
+                        $_SESSION['user_mod'] = 0;
                     }
                 }
             }
