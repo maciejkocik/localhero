@@ -1,11 +1,11 @@
 <?php
-$header = 'index.php?page=registration';
+$header = 'index.php?page=sign_in';
 
 $header_plus = '';
 
 $error = 1;
 
-if(isset($_POST['login']) &&  isset($_POST['password'])
+if(isset($_POST['login']) && isset($_POST['password'])
 && strlen($_POST['login']) >= 3 && strlen($_POST['login']) <=100
 && strlen($_POST['password']) >= 5 && strlen($_POST['password']) <= 50)
 {
@@ -23,18 +23,18 @@ if(isset($_POST['login']) &&  isset($_POST['password'])
             {
                 if($user -> signInList['status'] != 0)
                 {
-                    error = -1;
+                    $error = -1;
 
                     session_start();
                     $_SESSION['signed_in'] = true;
                     $_SESSION['user_id'] = $user -> signInList['id'];
                     $_SESSION['user_login'] = $user -> signInList['login'];
-                    $_SESSION['user_mod'] = $user -> signInList['mod'];
+                    $_SESSION['user_mod'] = $user -> signInList['moderator'];
                     $header = 'index.php?page=sign_in_succes';
                 }
                 else
                 {
-                    error = 3;
+                    $error = 3;
                 }
             }
             else

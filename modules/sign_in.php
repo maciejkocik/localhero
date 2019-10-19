@@ -26,6 +26,11 @@ if(!$signed_in)
         }
     }
 
+    if($_REQUEST['page'] != 'sign_in')
+    {
+        echo '<p>Aby kontynuować, musisz się zalogować lub zarejestrować.</p>';
+    }
+
 
     echo 'Podaj Login: <input type="text" name="login" maxlength=100 minlength=3 required';
     if(isset($_GET['login']))

@@ -22,7 +22,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
         $password2 = $_POST['password2'];
 
         $user -> registrationCheck($login, $email);
-        
+
         if($user -> resultRegistrationCheck)
         {
             //login
@@ -62,34 +62,40 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
             }
             
             //password2
-            if($password2 == $password1)
+            if($password2 == $password)
             {
             
             }
             else
             {
-                $password_error = 1;
+                $password2_error = 1;
             }
 
+            //var_dump($login_error);
+            //var_dump($email_error);
+            //var_dump($password_error);
+            //var_dump($password2_error);
+           
             if($login_error == -1 && $email_error == -1 && $password_error == -1 && $password2_error == -1)
             {
+                
+
                 $user -> registration($login,$email,md5($password));
 
                 if($user -> resultRegistration)
                 {
-
                     $error = -1;
                     $header = 'index.php?page=registration_succes';
 
-                    $user -> getLastId();
+                    $user -> signIn($login, md5($password));
 
-                    if($user -> resultGetLastId)
+                    if($user -> resultSignIn)
                     {
                         session_start();
                         $_SESSION['signed_in'] = true;
-                        $_SESSION['user_id'] = $user -> lastUser['id'];
-                        $_SESSION['user_login'] = $user -> lastUser['login'];
-                        $_SESSION['user_mod'] = 0;
+                        $_SESSION['user_id'] = $user -> signInList['id'];
+                        $_SESSION['user_login'] = $user -> signInList['login'];
+                        $_SESSION['user_mod'] = $user -> signInList['moderator'];
                     }
                 }
             }
@@ -108,7 +114,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
                 }
                 if($email_error != -1)
                 {
-                    $header_plus = $header_plus.'&login_error='.$email_error;
+                    $header_plus = $header_plus.'&email_error='.$email_error;
                 }
                 else
                 {
@@ -116,11 +122,11 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
                 }
                 if($password_error != -1)
                 {
-                    $header_plus = $header_plus.'&login_error='.$password_error;
+                    $header_plus = $header_plus.'&password_error='.$password_error;
                 }
                 if($password2_error != -1)
                 {
-                    $header_plus = $header_plus.'&login_error='.$password2_error;
+                    $header_plus = $header_plus.'&password_error2='.$password2_error;
                 }
             }
         }
@@ -129,7 +135,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
 
 if($error == 1)
 {
-    $header_plus = $header_plus.'&login_error='.$error;
+    $header_plus = $header_plus.'&registration_error='.$error;
 }
 
 header('Location:'.$header.$header_plus);
