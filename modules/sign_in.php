@@ -1,6 +1,6 @@
 <?php
 
-if(!$signed_in)
+if($signed_in == false)
 {
     echo '
     <FORM method="POST" action="action.php">
@@ -26,7 +26,7 @@ if(!$signed_in)
         }
     }
 
-    if($_REQUEST['page'] != 'sign_in')
+    if($_REQUEST['page'] != 'sign_in' or isset($_GET['write_text']))
     {
         echo '<p>Aby kontynuować, musisz się zalogować lub zarejestrować.</p>';
     }
