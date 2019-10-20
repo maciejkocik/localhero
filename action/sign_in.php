@@ -30,7 +30,7 @@ if(isset($_POST['login']) && isset($_POST['password'])
                     $_SESSION['user_id'] = $user -> signInList['id'];
                     $_SESSION['user_login'] = $user -> signInList['login'];
                     $_SESSION['user_mod'] = $user -> signInList['moderator'];
-                    $header = 'index.php?page=sign_in_succes';
+                    $header = 'index.php?page=sign_in_success';
                 }
                 else
                 {

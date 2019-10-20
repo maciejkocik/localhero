@@ -1,52 +1,50 @@
 <?php
+echo '<link href="assets/css/signin.css" rel="stylesheet" type="text/css">
+    <div id="signin" class="text-center">';
 
-if($signed_in == false)
+if(!$signed_in)
 {
-    echo '
-    <FORM method="POST" action="action.php">
-
-    <h1>Logowanie</h1>
-
-    <div>';
-
-
     if(isset($_GET['sign_in_error']))
     {
-        if($_GET['sign_in_error'] == 1)
-        {
-            echo '<p>Wystąpił błąd, spróbuj ponownie.</p>';
-        }
-        else if($_GET['sign_in_error'] == 2)
-        {
-            echo '<p>Nieprawidłowy login lub hasło.</p>';
-        }
-        else if($_GET['sign_in_error'] == 3)
-        {
-            echo '<p>Podane konto ma zablokowaną możliwość logowania.</p>';
-        }
+        error("sign_in", "danger", $_GET['sign_in_error']);
     }
-
+    
     if($_REQUEST['page'] != 'sign_in' or isset($_GET['write_text']))
     {
-        echo '<p>Aby kontynuować, musisz się zalogować lub zarejestrować.</p>';
+        error("sign_in", "warning", 4);
     }
 
+    
+    
+    echo '
+    <form class="form-signin" method="POST" action="action.php">
 
-    echo 'Podaj Login: <input type="text" name="login" maxlength=100 minlength=3 required';
+    <img class="mb-4" src="img/logo1.png">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Zaloguj się</h1>
+    ';
+
+
+
+
+
+    echo '
+    <label for="inputLogin" class="sr-only">Login</label>
+    <input type="text" id="inputLogin" class="form-control" placeholder="Login" name="login" maxlength=100 minlength=3 required autofocus ';
     if(isset($_GET['login']))
     {
         echo 'value="'.$_GET['login'].'">';
     }
 
     echo '>
-    
-    Podaj hasło: <input type="password" name="password" maxlength=50 minlength=5 required>
+    <label for="inputPassword" class="sr-only">Hasło</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Hasło" name="password" maxlength=50 minlength=5 required>
     
     <input type="hidden" name="file" value="sign_in">
 
-    </div>
     
-    <input type="submit" value"Zarejestruj się">';
+    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Dalej</button>
+    </form>';
     
 }
 else

@@ -1,5 +1,0 @@
-<?php
-
-echo 'Zalogowałeś się.';
-
-?>

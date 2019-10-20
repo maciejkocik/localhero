@@ -10,9 +10,9 @@ if(isset($_REQUEST['file'])) {
 
 	if(file_exists($path.'/'.$_REQUEST['file'].'.php')) { 
 		include($path.'/'.$_REQUEST['file'].'.php');
-	} else header("Location:index.php?page=error");
+	} else header("Location:index.php?page=404");
 
-} else header("Location:index.php?page=error");
+} else header("Location:index.php?page=404");
 
 
 

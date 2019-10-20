@@ -28,7 +28,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
             //login
             if(strlen($login) >= 3 && strlen($login) <= 100)
             {
-                if(! $user -> loginCheck)
+                if(!$user->loginCheck)
                 {
                     $login_error = 2;
                 }
@@ -85,7 +85,7 @@ if(isset($_POST['login']) && isset($_POST['email']) && isset($_POST['password'])
                 if($user -> resultRegistration)
                 {
                     $error = -1;
-                    $header = 'index.php?page=registration_succes';
+                    $header = 'index.php?page=registration_success';
 
                     $user -> signIn($login, md5($password));
 

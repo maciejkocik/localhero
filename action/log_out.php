@@ -22,5 +22,5 @@ if(isset($_SESSION['user_mod']))
     unset($_SESSION['user_mod']);
 }
 
-header('Location:index.php?page=log_out_succes');
+header('Location:index.php?page=log_out_success');
 ?>

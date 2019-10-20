@@ -2,85 +2,74 @@
 
 if(!$signed_in)
 {
-    echo '
-    <FORM method="POST" action="action.php">
-
-    <h1>Rejestracja</h1>
-
-    <div>';
-
+    echo '    
+    <link href="assets/css/signin.css" rel="stylesheet" type="text/css">
+    
+    <div id="signin" class="text-center">';
+    
     if(isset($_GET['registration_error']))
     {
-        echo '<p>Wystąpił błąd, spróbuj ponownie.</p>';
+        error("registration", "danger", $_GET['registration_error']);
     }
+    
+    if(isset($_GET['email_error']))
+    {
+        error("registration", "danger", $_GET['email_error'], "email_error");
+    }
+    
+    if(isset($_GET['login_error']))
+    {
+        error("registration", "danger", $_GET['login_error'], "login_error");        
+    }
+    if(isset($_GET['password_error']))
+    {
+        error("registration", "danger", $_GET["password_error"], "password_error");
+    }
+    if(isset($_GET['password_error2']))
+    {
+        error("registration", "danger", $_GET["password_error2"], "password_error2");
+    }
+    
+    
+    echo '    
+    <form class="form-signin" method="POST" action="action.php">
 
-    echo 'Podaj Login: <input type="text" name="login"';
+    <img class="mb-4" src="img/logo1.png">
+    
+    <h1 class="h3 mb-3 font-weight-normal">Zarejestruj się</h1>';
+
+    echo '<label for="inputLogin" class="sr-only">Login</label>
+    <input type="text" id="inputLogin" class="form-control" placeholder="Login" name="login" maxlength=100 minlength=3 required autofocus ';
     if(isset($_GET['login']))
     {
         echo 'value="'.$_GET['login'].'"';
     }
 
-    echo ' maxlength=100 minlength=3 required>';
-
-    if(isset($_GET['login_error']))
-    {
-        if($_GET['login_error'] == 1)
-        {
-            echo '<p>Podano błędny login</p>';
-        }
-        else if($_GET['login_error'] == 2)
-        {
-            echo '<p>Podany login jest zajęty.</p>';
-        }
-            
-    }
+    echo '>';
 
 
-    echo 'Podaj e-mail: <input type="email" name="email"';
+    echo '<label for="inputEmail" class="sr-only">Adres e-mail</label>
+    <input type="email" id="inputEmail" class="form-control" placeholder="Adres e-mail" name="email" ';
     if(isset($_GET['email']))
     {
         echo 'value="'.$_GET['email'].'"';
     }
 
-    echo ' maxlength=100 minlength=5 required>';
-
-    if(isset($_GET['email_error']))
-    {
-        if($_GET['email_error'] == 1)
-        {
-            echo '<p>Podano błędny e-mail.</p>';
-        }
-        if($_GET['email_error'] == 2)
-        {
-            echo '<p>Podany e-mail jest zajęty.</p>';
-        }
-    }
-
-
-    echo 'Podaj hasło (minimum 5 znaków): <input type="password" name="password" maxlength=50 minlength=5 required>';
+    echo ' maxlength=100 minlength=5 required>
     
-        if(isset($_GET['password_error']))
-        {
-            if($_GET['password_error'] == 1)
-            {
-                echo '<p>Podano błędne hasło.</p>';
-            }
-        }
+    <label for="inputPassword" class="sr-only">Hasło</label>
+    <input type="password" id="inputPassword" class="form-control" placeholder="Hasło" name="password" maxlength=50 minlength=5 required>
+
+    <label for="inputPassword2" class="sr-only">Powtórz hasło</label>
+    <input type="password" id="inputPassword2" class="form-control" placeholder="Powtórz hasło" name="password2" maxlength=50 minlength=5 required>
 
 
-    echo 'Powtórz hasło: <input type="password" name="password2" maxlength=50 minlength=5 required>';
-        if(isset($_GET['password_error2']))
-        {
-            if($_GET['password_error2'] == 1)
-            {
-                echo '<p>Powtórzone hasło różni się od pierwotnego.</p>';
-            }
-        }
+    <input type="hidden" name="file" value="registration">
 
-    echo '<input type="hidden" name="file" value="registration">
-
+    <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Dalej</button>
+    
+    </form>
     </div>';
-    echo '<input type="submit" value"Zarejestruj się">';
 }
 else
 {
