@@ -1,28 +1,12 @@
-    <section class="text-center">
-        <form method="POST" action="action.php" class="form-signin">
-          <img class="mb-4" src="img/logo.png" alt="" width="72" height="72">
-          <h1 class="h3 mb-3 font-weight-normal">Zarejestruj się</h1>
-          <label for="inputLogin" class="sr-only">Login</label>
-          <input name="login" type="text" id="inputLogin" class="form-control" placeholder="Login" required autofocus>
-          <label for="inputEmail" class="sr-only">Adres email</label>
-          <input name="email" type="email" id="inputEmail" class="form-control" placeholder="Adres email" required autofocus>
-          <label for="inputPassword" class="sr-only">Hasło</label>
-          <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Hasło" required>
-          <label for="inputPassword2" class="sr-only">Powtórz hasło</label>
-          <input name="password" type="password" id="inputPassword2" class="form-control" placeholder="Powtórz hasło" required>
-          <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj się</button>
-        </form>
-    </section>
-      
-      
+<?php
 
+echo '
 <FORM method="POST" action="action.php">
 
 <h1>Rejestracja</h1>
 
-<div>
+<div>';
 
-<?php
 if(isset($_GET['registration_error']))
 {
     {
@@ -57,6 +41,7 @@ else
 }
 
 
+echo 'Podaj e-mail: <input type="email" name="email" maxlength=100 minlength=5 required';
 if(isset($_GET['email']))
 {
     
