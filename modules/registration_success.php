@@ -1,13 +1,16 @@
-<style>
-body {
-    background: #dedede;
-}
-.page-wrap {
-    min-height: 100vh;
-}
-</style>
-
-<div class="page-wrap d-flex flex-row align-items-center">
+<?php
+if($_SESSION['registration_success']) {
+    echo '
+    <style>
+    body {
+        background: #dedede;
+    }
+    .page-wrap {
+        min-height: 100vh;
+    }
+    </style>
+    
+    <div class="page-wrap d-flex flex-row align-items-center">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
@@ -16,4 +19,5 @@ body {
             </div>
         </div>
     </div>
-</div>
+</div>';
+} else header("Location: index.php");

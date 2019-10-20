@@ -12,7 +12,7 @@ body {
         <div class="row justify-content-center">
             <div class="col-md-12 text-center">
                 <span class="display-1 d-block">Pomyślnie zalogowano</span>
-                <a href="index.php" class="btn btn-link">Powrót na stronę główną</a>
+                <a href="index.php" class="btn btn-link">Przejdź na stronę główną</a>
             </div>
         </div>
     </div>

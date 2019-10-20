@@ -1,8 +1,21 @@
+    <script src='https://www.google.com/recaptcha/api.js?render=6Leejb4UAAAAABMH1orElNmQJI_V_v5JTWBrQXy9'></script>
+
+    <script>
+        grecaptcha.ready(function () {
+            grecaptcha.execute('6Leejb4UAAAAABMH1orElNmQJI_V_v5JTWBrQXy9', { action: 'register' })
+                .then(function (token) {
+                var recaptchaResponse = document.getElementById('recaptchaResponse');
+                console.log(recaptchaResponse)
+                recaptchaResponse.value = token;
+            });
+        });
+    </script>
+
 <?php
 
 if(!$signed_in)
 {
-    echo '    
+    echo '
     <link href="assets/css/signin.css" rel="stylesheet" type="text/css">
     
     <div id="signin" class="text-center">';
@@ -65,6 +78,8 @@ if(!$signed_in)
 
 
     <input type="hidden" name="file" value="registration">
+    
+    <input type="hidden" value="" name="recaptcha_response" id="recaptchaResponse">
 
     <button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Dalej</button>
     
