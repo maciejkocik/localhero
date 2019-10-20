@@ -4,7 +4,7 @@ body {
 }
 .page-wrap {
     min-height: 100vh;
-}   
+}
 </style>
 
 <div class="page-wrap d-flex flex-row align-items-center">
