@@ -1,19 +1,18 @@
 <?php
-//include_once('checking_login.php'); //To musi być zawsze pierwsze!!!
 
-
-//include_once('variables.php');
 include_once('classes.php');
+include_once('admin/checking_login.php');
+include_once('admin/functions.php');
 
-$path = '/action/';
+$path = 'action';
 
 if(isset($_REQUEST['file'])) {
 
 	if(file_exists($path.'/'.$_REQUEST['file'].'.php')) { 
 		include($path.'/'.$_REQUEST['file'].'.php');
-	} else header("Location:index.php?error=1");
+	} else header("Location:index.php?page=error");
 
-} else header("Location:index.php?error=1");
+} else header("Location:index.php?page=error");
 
 
 
