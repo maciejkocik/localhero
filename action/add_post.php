@@ -30,7 +30,16 @@ if($signed_in)
             {
                 $post -> connection -> beginTransaction();
 
-                $post -> addPost($user_id, $title, $description, $lat, $lng);
+                if($user_mod == 1)
+                {
+                    $status = 'approved';
+                }
+                else
+                {
+                    $status = 'waiting';
+                }
+
+                $post -> addPost($user_id, $title, $description, $lat, $lng, $status);
 
                 if($post -> resultAddPost)
                 {

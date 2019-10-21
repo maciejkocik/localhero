@@ -57,7 +57,9 @@ function error($page, $alert_type, $id, $error_type = "") {
 
                 }
             } else echo 'Wystąpił błąd, spróbuj ponownie.';
-        break;
+            break;
+        case 'view_post':
+            break;
 
     }  
     echo '      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
