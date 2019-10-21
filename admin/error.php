@@ -59,7 +59,16 @@ function error($page, $alert_type, $id, $error_type = "") {
             } else echo 'Wystąpił błąd, spróbuj ponownie.';
             break;
         case 'view_post':
+        {
+            switch($_GET['info']) 
+            {
+                case 1:
+                    echo "Dodano Wpis.";
+                    break;
+            }   
+            
             break;
+        }
 
     }  
     echo '      <button type="button" class="close" data-dismiss="alert" aria-label="Close">

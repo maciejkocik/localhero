@@ -9,10 +9,16 @@ class Post extends DBConnect
     public $resultAddPost = false;
     public $resultGetLastPost = false;
     public $resultGetPost = false;
+    public $resultGetComments = false;
+    public $resultGetReactionInfo = false;
+
+
     
     //data
     public $lastPost = true;
     public $getPost;
+    public $comments;
+    public $reactionInfo;
 
 
     public function addPost($user_id, $title, $description, $lat, $lng, $status)
@@ -64,10 +70,11 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT IF(user.id = post.id_user, user.login,NULL) AS p_login, IF(user.id = cleaned_up.id_user, user.id,NULL) AS cu_login, post.id AS p_id, post.id_user AS p_id_user, post.title AS p_title, post.description AS p_description, post.date AS p_date, post.lat AS p_lat, post.lng AS p_lng, post.status AS p_status,
+            $stmt = $this -> connection -> prepare('SELECT IF(user.id = post.id_user, user.login,NULL) AS p_login, IF(user.id = cleaned_up.id_user, user.id,NULL) AS cu_login,
+            post.id AS p_id, post.id_user AS p_id_user, post.title AS p_title, post.description AS p_description, post.date AS p_date, post.lat AS p_lat, post.lng AS p_lng, post.status AS p_status,
             COUNT(IF(post_reaction.reaction = 1, 1, NULL)) AS likes,
             COUNT(IF(post_reaction.reaction = 0, 1, NULL)) AS dislikes,
-            cleaned_up.id_user AS cu_id_user, cleaned_up.description AS cu_description, cleaned_up.date AS cu_date, cleaned_up.status AS cu_status
+            cleaned_up.id AS cu_id, cleaned_up.id_user AS cu_id_user, cleaned_up.description AS cu_description, cleaned_up.date AS cu_date, cleaned_up.status AS cu_status
             FROM ((post LEFT JOIN cleaned_up ON post.id = cleaned_up.id_post) LEFT JOIN post_reaction ON post.id = post_reaction.id_post), user 
             WHERE post.id = :post_id');
             
@@ -84,6 +91,57 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultGetPost = false;
+		}
+    }
+
+    public function getComments($post_id)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT comment.id_user, user.login, comment.text, comment.date
+            FROM comment LEFT JOIN user ON comment.id_user = user.id WHERE comment.id_post = :id_post AND comment.status = 1 ORDER BY comment.id DESC LIMIT 0,100');
+            $stmt -> bindParam(':id_post',$post_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+            $i = 0;
+			while($row = $stmt -> fetch())
+			{
+				$this->comments[$i] = $row;
+				$i++;
+			}
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultGetComments = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetComments = false;
+		}
+    }
+
+    public function getReactionInfo($post_id, $user_id)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM post_reaction WHERE id_post = :id_post AND id_user = :id_user');
+            $stmt -> bindParam(':id_post',$post_id,PDO::PARAM_INT);
+            $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+			$this -> reactionInfo = $stmt -> fetch();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultGetReactionInfo = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetReactionInfo = false;
 		}
     }
 
