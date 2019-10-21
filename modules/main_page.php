@@ -1,6 +1,4 @@
-<?php
-    include_once('header.php');
-?>
+
  <main role="main">
      <section class="jumbotron text-center">
         <div class="container">

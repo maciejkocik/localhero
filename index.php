@@ -5,7 +5,8 @@
         include_once('admin/functions.php');
         include_once('admin/error.php');
 
-        include_once('head.php');
+        include_once('header.php');
+
 
         $path = 'modules';
         if(isset($_REQUEST['page']))
