@@ -52,7 +52,7 @@ if($signed_in)
                         if(!$_FILES['imagename']['name'][0] == '')
                         {
 
-                            $destination = 'photos_posts/'.$post -> lastPost['id'];
+                            $destination = 'img/photos_posts/'.$post -> lastPost['id'];
 
                             if(mkdir($destination, 0777, true))
                             {

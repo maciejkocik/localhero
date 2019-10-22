@@ -75,6 +75,16 @@ function error($page, $alert_type, $id, $error_type = "") {
                             echo "Zmieniono status.";
                             break;
                         }
+                        case 3:
+                        {
+                            echo "Dodano komentarz.";
+                            break;
+                        }
+                        case 4:
+                        {
+                            echo "Usunięto komentarz.";
+                            break;
+                        }
                     }
                     break;
                 case 'danger':

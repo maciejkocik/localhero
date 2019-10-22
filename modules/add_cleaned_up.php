@@ -2,7 +2,8 @@
 
 if($signed_in)
 {
-  
+  if(isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id']))
+  {
     echo '
     
 
@@ -40,7 +41,7 @@ if($signed_in)
       </script>
 
 
-    <h1>Dodawanie wpisu</h1>';
+    <h1>Dodawanie Posprzątania problemu</h1>';
     
     if(isset($_GET['error']))
     {
@@ -51,18 +52,21 @@ if($signed_in)
     }
     
     echo '
-    Tytuł: <input type="text" name="title" '.(isset($_GET['title']) ? 'value="'.$_GET['title'].'"':'').' maxlength=400 minlength=3 required>
 
     Dodaj zdjęcia (jpg, png): <input type="file" id="image" name="imagename[]" '.(isset($_GET['image_name']) ? 'value="'.$_GET['image_name'].'"':'').' multiple accept="image/png, image/jpeg" &gt><br><br>
     
     '.(isset($_GET['photos_error']) ? '<p>Wystąpił błąd ze zdjęciami. Pamiętaj, że możesz załadować maksymalnie 10 zdjęć.</p>':'').' 
 
     Opis: <textarea name="description">'.(isset($_GET['description']) ? $_GET['description']:'').'</textarea>
-    <input type="hidden" name="lat" value="'.(isset($_GET['lat']) ? $_GET['lat']:'0').'">
-    <input type="hidden" name="lng" value="'.(isset($_GET['lng']) ? $_GET['lng']:'0').'">
-    <input type="hidden" name="file" value="add_post">
+    <input type="hidden" name="file" value="add_cleaned_up">
+    <input type="hidden" name="post_id" value="'.$_REQUEST['post_id'].'">
     <input type="submit">
     ';
+  }
+  else
+  {
+    echo '<p>Wystąpił błąd.</p>';
+  }
 }
 else
 {
