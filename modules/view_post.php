@@ -163,10 +163,7 @@ switch($error)
                     echo '<a href="index.php?page=add_cleaned_up&post_id='.$post_id.'"><button>Dodaj posprzątanie</button></a>';
                 }
             }
-            if($signed_in)
-            {
-                echo '';
-            }
+            
 
         }
         else
