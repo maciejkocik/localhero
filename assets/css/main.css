@@ -1,6 +1,6 @@
-#navbar-logo {
-    position: absolute;
-    top: 13px;
+.navbar-brand i {
+position: relative;
+top:5px;
 }
 
 :root {
@@ -42,3 +42,16 @@ footer p {
 }
 
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+#navbarDropdownMenuLink {
+    color: #fff !important;
+    text-decoration: none;
+}
+
+#map {
+    height:45%;
+}
+
+#gallery-heading {
+    margin-bottom:60px;
+}

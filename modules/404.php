@@ -1,11 +1,4 @@
-<style>
-body {
-    background: #dedede;
-}
-.page-wrap {
-    min-height: 100vh;
-}
-</style>
+<link rel="stylesheet" href="assets/css/success.css">
 
 <div class="page-wrap d-flex flex-row align-items-center">
     <div class="container">
