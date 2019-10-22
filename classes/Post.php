@@ -13,6 +13,7 @@ class Post extends DBConnect
     public $resultGetReactionInfo = false;
     public $resultGetOnlyPost = false;
     public $resultChangePostStatus = false;
+    public $resultGetApprovedPosts = false;
 
 
 
@@ -23,6 +24,7 @@ class Post extends DBConnect
     public $comments;
     public $reactionInfo;
     public $onlyPost;
+    public $approvedPosts;
 
 
     public function addPost($user_id, $title, $description, $lat, $lng, $status)
@@ -189,6 +191,30 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultChangePostStatus = false;
+		}
+    }
+
+    public function getApprovedPostsForMap()
+    {
+        try
+        {
+            $stmt = $this -> connection -> query('SELECT * FROM post WHERE status = "approved"');
+            
+            $i = 0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> approvedPosts[$i] = $row;
+				$i++;
+			}
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultGetApprovedPosts = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetApprovedPosts = false;
 		}
     }
 
