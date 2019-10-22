@@ -60,11 +60,25 @@ function error($page, $alert_type, $id, $error_type = "") {
             break;
         case 'view_post':
         {
-            switch($_GET['info']) 
+            switch($alert_type) 
             {
-                case 1:
-                    echo "Dodano Wpis.";
+                case 'success':
+                    switch($id)
+                    {
+                        case 1:
+                        {
+                            echo "Dodano Wpis.";
+                            break;
+                        }
+                        case 2:
+                        {
+                            echo "Zmieniono status.";
+                            break;
+                        }
+                    }
                     break;
+                case 'danger':
+                    echo 'Wystąpił błąd.';
             }   
             
             break;
