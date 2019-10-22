@@ -11,6 +11,9 @@ class Post extends DBConnect
     public $resultGetPost = false;
     public $resultGetComments = false;
     public $resultGetReactionInfo = false;
+    public $resultGetOnlyPost = false;
+    public $resultChangePostStatus = false;
+
 
 
     
@@ -19,6 +22,7 @@ class Post extends DBConnect
     public $getPost;
     public $comments;
     public $reactionInfo;
+    public $onlyPost;
 
 
     public function addPost($user_id, $title, $description, $lat, $lng, $status)
@@ -142,6 +146,49 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultGetReactionInfo = false;
+		}
+    }
+
+    public function getOnlyPost($post_id)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE id = :id_post');
+            $stmt -> bindParam(':id_post',$post_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+			$this -> onlyPost = $stmt -> fetch();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultGetOnlyPost = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetOnlyPost = false;
+		}
+    }
+
+    public function changePostStatus($post_id,$status)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('UPDATE post SET status = :status WHERE id = :id_post');
+            $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
+            $stmt -> bindParam(':id_post',$post_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultChangePostStatus = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultChangePostStatus = false;
 		}
     }
 
