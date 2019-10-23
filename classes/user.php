@@ -104,6 +104,15 @@ class User extends DBConnect
     {
         try
         {
+            /*
+            SELECT user.*, COUNT(IF(user_reaction.reaction = 1, 1, NULL)) AS likes, COUNT(IF(user_reaction.reaction = 0, 1, NULL)) AS dislikes,
+            COUNT(IF(post.id = NULL, NULL, 1)) AS n_post, COUNT(IF(cleaned_up.id = NULL, NULL, 1)) AS n_cleaned_up, COUNT(IF(comment.id = NULL, NULL, 1)) AS n_comment
+            FROM user, user_reaction, post, cleaned_up, comment WHERE user.id = 3 AND user_reaction.id_user_to = 3
+            AND post.id_user = 3 AND cleaned_up.id_user = 3 AND comment.id_user = 3
+            AND post.status = "approved" AND cleaned_up.status = "approved" AND comment.status = "approved"
+            */
+
+
             $stmt = $this -> connection -> prepare('SELECT user.*, COUNT(IF(user_reaction.reaction = 1, 1, NULL)) AS likes, COUNT(IF(user_reaction.reaction = 0, 1, NULL)) AS dislikes
             FROM user, user_reaction WHERE user.id = :id_user ');
             $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);

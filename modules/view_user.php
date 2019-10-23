@@ -113,7 +113,61 @@ switch($error)
             <button '.$add_like.' '.($signed_in ? '':'disabled').'>Likes: '.$post -> getUser['likes'].'</button></a>
             <a href="action.php?file=add_reaction_user&user_id='.$post_id.'&reaction='.($add_dislike == '' ? '0':'-1').'">
             <button '.$add_dislike.' '.($signed_in ? '':'disabled').'>Dislikes: '.$post -> getUser['dislikes'].'</button></a>
-            </div>';
+            </div>
+            
+            <h2>Ostatnia Aktywność:</h2>';
+
+            if($activity[0]['id']!= NULL)
+            {
+                foreach($activity as $row)
+                {
+                    if($row['status'] == 'approved' or ($signed_in && ($user -> getUser['id'] == $user_id or $user_mod)))
+                    {
+                        echo '<div>
+                        
+                        <a href="index.php?page=view_post?post_id=';
+                        if(isset($row['title']))
+                        {
+                            echo $row['id'].'">
+                            
+                            <h3>'.$row['title'].'</h3>';
+                        }
+                        else
+                        {
+                            echo $row['id_post'].'">';
+                        }
+                        echo '</a>';
+
+                        echo '<p>'.$row['date'].'</p>
+                        
+                        <p>'.$row['description'].'</p>';
+
+                        switch($row['status'])
+                        {
+                            case 'approved':
+                            {
+                                break;
+                            }
+                            case 'removed':
+                            {
+                                echo '<p>Ustawiono jako prywatne lub usunięto przez administratora</p>';
+                                break;
+                            }
+                            case 'waiting':
+                            {
+                                echo '<p>Oczekuje na akceptację przez administratora.</p>';
+                                break;
+                            }
+                        }
+
+                        echo '</div>';
+                    }
+                }
+            }
+            else
+            {
+                echo '<p>Brak aktywności.</p>';
+            }
 
 
         break;
