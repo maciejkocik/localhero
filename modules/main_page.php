@@ -13,10 +13,24 @@
      
     <div id="map"></div>
      
-    <script src="assets/js/map.js"></script>
+    <script>
+
+    var map;
+        
+    function initMap(){
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: new google.maps.LatLng(51.9358379,16.8921266),
+        zoom: 5
+    });  
+    };
+
+    
+
+ 
+    </script>
 
       <div class="album py-5 bg-light">
-        <h1 class="text-center display-3" id="gallery-heading">Aktualne problemy</h1>
+        <h2 class="text-center display-3" id="gallery-heading">Aktualne problemy</h2>
         <div class="container">
           <div class="row">
             <?php for($i = 1; $i <= 9; $i++): ?>

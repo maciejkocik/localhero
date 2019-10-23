@@ -1,4 +1,4 @@
-.navbar-brand i {
+.material-icons {
 position: relative;
 top:5px;
 }
@@ -54,4 +54,8 @@ footer p {
 
 #gallery-heading {
     margin-bottom:60px;
+}
+
+.form-group{
+    margin-bottom:15px !important;
 }
