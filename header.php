@@ -29,6 +29,10 @@ if(isset($_GET['page'])){
                             <li class="nav-item" role="presentation"><a class="nav-link <?php echo $active[2];?>" href="index.php?page=registration">Rejestracja</a></li>
                         </ul>  
                     <?php else: ?>
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#addPost" style="cursor:pointer;"><i class="material-icons">post_add</i> Dodaj problem</a></li>                        
+                            <li class="nav-item"><a class="nav-link" href="index.php?page=ranking"><i class="material-icons">poll</i> Ranking</a></li>
+                        </ul>
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Witaj, <strong><?php echo $user_login; ?></strong></a>
