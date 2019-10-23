@@ -29,6 +29,8 @@ class Post extends DBConnect
     public $resultDeleteCleanedUp = false;
     public $resultGetUserPost = false;
     public $resultGetUserCleanedUp = false;
+    public $resultGetPostsMod = false;
+    public $resultGetCleanedUpMod = false;
 
 
     //data
@@ -43,6 +45,8 @@ class Post extends DBConnect
     public $onlyCleanedUpByPost;
     public $lastCleanedUp;
     public $onlyCleanedUp;
+    public $postsMod;
+    public $cleanedUpMod;
 
 
     public function addPost($user_id, $title, $description, $lat, $lng, $status)
@@ -477,6 +481,26 @@ class Post extends DBConnect
     }
 
 
+    public function changeCleanedUpStatus($cleaned_up_id, $status)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('UPDATE cleaned_up SET status = :status WHERE id = :id');
+            $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
+            $stmt -> bindParam(':id',$cleaned_up_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultChangeCleanedUpStatus = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultChangeCleanedUpStatus = false;
+		}
+    }
 
     public function deleteCleanedUp($cleaned_up_id)
     {
@@ -502,7 +526,7 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE id_user = :id_user');
+            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE id_user = :id_user ORDER BY id DESC LIMIT 0,20');
             
             $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
             $stmt ->execute();
@@ -527,7 +551,7 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE id_user = :id_user');
+            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE id_user = :id_user ORDER BY id DESC LIMIT 0,20');
             
             $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
             $stmt ->execute();
@@ -548,6 +572,56 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultGetUserCleanedUp = false;
+		}
+    }
+
+    public function getPostsMod($status)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE status = :status ORDER BY id ASC LIMIT 0,30');
+            
+            $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
+            $stmt ->execute();
+
+            $i =0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> postsMod[$i] = $row;
+                $i++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetPostsMod = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetPostsMod = false;
+		}
+    }
+
+    public function getCleanedUpMod($status)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE status = :status ORDER BY id ASC LIMIT 0,30');
+            
+            $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
+            $stmt ->execute();
+
+            $i =0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> cleanedUpMod[$i] = $row;
+                $i++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetCleanedUpMod = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetCleanedUpMod = false;
 		}
     }
 

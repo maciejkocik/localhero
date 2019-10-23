@@ -104,8 +104,11 @@ switch($error)
             {
                 if($this_user_post)
                 {
-                    echo '<a href="index.php?page=edit_post&post_id='.$post_id.'"><button>Edytuj</button></a>
-                    <a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Ustaw jako prywatny</button></a>';
+                    echo '<a href="index.php?page=edit_post&post_id='.$post_id.'"><button>Edytuj</button></a>';
+                    if($post -> getPost['p_status'] != 'removed')
+                    {
+                        echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Ustaw jako prywatny</button></a>';
+                    }
                 }
                 if($user_mod)
                 {

@@ -15,6 +15,7 @@ class User extends DBConnect
     public $resultEditReaction = false;
     public $resultDeleteReaction = false;
     public $resultAddReaction = false;
+    public $resultGetBlockedUsersMod = false;
     
     //data
     public $loginCheck = true;
@@ -22,6 +23,7 @@ class User extends DBConnect
     public $signInList;
     public $getUser;
     public $reactionInfo;
+    public $blockedUsersMod;
 
     public function registrationCheck($login, $email)
     {
@@ -240,6 +242,28 @@ class User extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultDeleteReaction = false;
+		}
+    }
+
+    public function getBlockedUsersMod()
+    {
+        try
+        {
+            $stmt = $this -> connection -> query('SELECT * FROM user WHERE status = 0 ORDER BY id DESC LIMIT 0,100');
+
+            $i = 0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> blockedUsersMod[$i] = $row;
+                $i++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetBlockedUsersMod = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetBlockedUsersMod = false;
 		}
     }
 }

@@ -17,7 +17,7 @@ if($signed_in)
             if($user -> resultGetUser && $user -> getUser['id'] != NULL)
             {
                 
-                $user -> getReactionInfo($user_id, $here_user_id,);
+                $user -> getReactionInfo($user_id, $here_user_id);
 
                 if($user -> reactionInfo['id'] != NULL)
                 {
@@ -33,7 +33,7 @@ if($signed_in)
 
                     if($reaction == -1)
                     {
-                        $user -> deleteReaction($user_id, $here_user_id,);
+                        $user -> deleteReaction($user_id, $here_user_id);
 
                         if($user -> resultDeleteReaction)
                         {
@@ -47,7 +47,7 @@ if($signed_in)
                     {
                         $user -> addReaction($user_id, $here_user_id, $reaction);
 
-                        if($post -> resultAddReaction)
+                        if($user -> resultAddReaction)
                         {
                             $error =-1;
                         }
