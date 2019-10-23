@@ -1,8 +1,62 @@
 <?php
 
-if($signed_in)
-{
-  
+if($signed_in){
+    if(isset($_GET['page'])) {
+        if($_GET['page'] == "add_post") {
+        echo "
+        <script>
+        $(document).ready(function(){
+            $('#addPost').modal('show');
+        });
+        </script>"; 
+        include_once("main_page.php");
+        }
+    }
+?>   
+
+
+
+<div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form method="POST" action="action.php" enctype="multipart/form-data">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">Zgłoś problem</h4>
+      </div>
+      <div class="modal-body">
+            <div class="form-group">
+			<label>Tytuł</label>
+			<input type="text" name="title" class="form-control" placeholder="Tytuł"
+            <?php echo (isset($_GET['title']) ? 'value="'.$_GET['title'].'"':''); ?>
+            maxlength=400 minlength=3 required>
+            </div>
+			<div class="form-group">
+			<label>Opis</label>
+			<textarea name="desc" class="form-control" placeholder="Opis"><?php echo (isset($_GET['description']) ? $_GET['description']:''); ?></textarea>
+			</div>
+			<div class="form-group">
+			<label>Lokalizacja</label>
+            <div id="map2"></div>
+
+            <input id="latitude" name="latitude" type="hidden" value="" />
+            <input id="longitude" name="longitude" type="hidden" value="" />
+            
+			</div>
+			<div class="form-group">
+			<label>Zdjęcia</label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="8388608">
+			<input name="imagename[]" id="image_upload" aria-busy=""type="file" class="form-control-file" multiple accept="image/png, image/jpeg">
+			</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+        <button type="submit" class="submit btn btn-primary">Wyślij</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+<!--
     echo '
     
 
@@ -11,33 +65,7 @@ if($signed_in)
     <FORM method="POST" action="action.php" enctype="multipart/form-data">
     
 
-    <script>
-    $(function() {
 
-        var // Define maximum number of files.
-            max_file_number = 10,
-            // Define your form id or class or just tag.
-            $form = $(\'FORM\'), 
-            // Define your upload field class or id or tag.
-            $file_upload = $(\'#image\', $form), 
-            // Define your submit class or id or tag.
-            $button = $(\'.submit\', $form); 
-      
-        // Disable submit button on page ready.
-        $button.prop(\'disabled\', \'disabled\');
-      
-        $file_upload.on(\'change\', function () {
-          var number_of_images = $(this)[0].files.length;
-          if (number_of_images > max_file_number) {
-            alert(`You can upload maximum ${max_file_number} files.`);
-            $(this).val(\'\');
-            $button.prop(\'disabled\', \'disabled\');
-          } else {
-            $button.prop(\'disabled\', false);
-          }
-        });
-      });
-      </script>
 
 
     <h1>Dodawanie wpisu</h1>';
@@ -63,9 +91,7 @@ if($signed_in)
     <input type="hidden" name="file" value="add_post">
     <input type="submit">
     ';
-}
-else
-{
-    include_once('modules/sign_in.php');
-}
+-->
+<?php           
+} else header("Location:index.php?page=sign_in");
 ?>

@@ -13,20 +13,59 @@
      
     <div id="map"></div>
      
-    <script>
-
-    var map;
-        
-    function initMap(){
-    map = new google.maps.Map(document.getElementById('map'), {
-        center: new google.maps.LatLng(51.9358379,16.8921266),
-        zoom: 5
-    });  
-    };
+    <script>  
+    var map, map2;
+    var userLat, userLng;
+    var marker;
 
     
+    function initMap() {
+        if (navigator.geolocation) { 
+        navigator.geolocation.getCurrentPosition(function(position){
+          userLat = parseFloat(position.coords.latitude);
+          userLng = parseFloat(position.coords.longitude);
+        console.log(userLat, userLng);
+        });
+        }
+        var myOptions = {
+            center: new google.maps.LatLng(51.9358379,16.8921266),
+            zoom: 5
+        }
+     
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+        
+        myOptions.center = new google.maps.LatLng(userLat, userLng);
+        myOptions.zoom = 10;
+        
+        console.log(userLat);
+        console.log(userLng);
+        
+        map2 = new google.maps.Map(document.getElementById("map2"), myOptions);
+        
+        google.maps.event.addListener(map2, 'click', function(event) {
+            placeMarker(event.latLng);
+        });
+    };
+    
+    function placeMarker(location) {
+      if (marker) {
+        marker.setPosition(location);
+      } else {
+        marker = new google.maps.Marker({
+          position: location,
+          map: map2
+        });
+      }
 
- 
+      $("#latitude").val(location.lat());
+      $("#longitude").val(location.lng());
+    console.log(location.lat());
+    console.log(location.lng());
+    
+
+    }
+
+
     </script>
 
       <div class="album py-5 bg-light">

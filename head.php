@@ -8,3 +8,6 @@
     </head>
 
     <body> 
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?language=en&key=AIzaSyD1mr6qboXBYoK6wqGPUShXB99Jw0_JGmE&callback=initMap"></script>
+
