@@ -17,7 +17,8 @@ if(isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id']))
         if($post -> resultGetPost && $post -> getPost['p_id'] != NULL)
         {
             $post -> getComments($post_id);
-            
+            $post -> getPostReactions($post_id);
+
             $reaction_error = false;
 
             if($signed_in)
@@ -30,28 +31,37 @@ if(isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id']))
                 }
             }
 
-            if(!$reaction_error && $post -> resultGetComments)
+            if(!$reaction_error && $post -> resultGetComments && $post -> resultGetPostReactions)
             {
                 $error = -1;
 
-                if($user_id == $post -> getPost['p_id_user'])
+                $this_user_post = false;
+
+                if($signed_in)
                 {
-                    $this_user_post = true;
-                }
-                else
-                {
-                    $this_user_post = false;
+                    if($user_id == $post -> getPost['p_id_user'])
+                    {
+                        $this_user_post = true;
+                    }
+                    else
+                    {
+                        $this_user_post = false;
+                    }
                 }
 
                 if($post -> getPost['cu_id_user'] != NULL)
                 {
-                    if($user_id == $post -> getPost['cu_id_user'])
+                    $this_user_clean_up = false;
+                    if($signed_in)
                     {
-                        $this_user_clean_up = true;
-                    }
-                    else
-                    {
-                        $this_user_clean_up = false;
+                        if($user_id == $post -> getPost['cu_id_user'])
+                        {
+                            $this_user_clean_up = true;
+                        }
+                        else
+                        {
+                            $this_user_clean_up = false;
+                        }
                     }
                 }
             }
@@ -90,30 +100,36 @@ switch($error)
                 echo '<p>Wpis czeka na weryfikację przez administratora</p>';
             }
 
-            if($this_user_post)
+            if($signed_in)
             {
-                echo '<a href="index.php?page=edit_post&post_id='.$post_id.'"><button>Edytuj</button></a>
-                <a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Ustaw jako prywatny</button></a>';
-            }
-            if(!$this_user_post && $user_mod)
-            {
-                switch($post -> getPost['p_status'])
+                if($this_user_post)
                 {
-                    case 'waiting':
+                    echo '<a href="index.php?page=edit_post&post_id='.$post_id.'"><button>Edytuj</button></a>
+                    <a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Ustaw jako prywatny</button></a>';
+                }
+                if($user_mod)
+                {
+                    switch($post -> getPost['p_status'])
                     {
-                        echo '<a href="action.php?file=change_post_status?&post_id='.$post_id.'&status=approved"><button>Zaakceptuj</button></a>
-                        <a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Odrzuć</button></a>';
-                        break;
-                    }
-                    case 'removed':
-                    {
-                        echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=approved"><button>Przywróć</button></a>';
-                        break;
-                    }
-                    case 'approved':
-                    {
-                        echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Odrzuć</button></a>';
-                        break;
+                        case 'waiting':
+                        {
+                            echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=approved"><button>Zaakceptuj</button></a>
+                            <a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Odrzuć</button></a>';
+                            break;
+                        }
+                        case 'removed':
+                        {
+                            echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=approved"><button>Przywróć</button></a>';
+                            break;
+                        }
+                        case 'approved':
+                        {
+                            if(!$this_user_post)
+                            {
+                                echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Zmień status na niepubliczny</button></a>';
+                            }
+                            break;
+                        }
                     }
                 }
             }
@@ -138,31 +154,48 @@ switch($error)
 
                 if($post -> getPost['cu_status'] == 'approved' or ($signed_in && $user_mod == 1 or $this_user_clean_up))
                 {
-                    echo '<h1>Posprzątano</h1>';
 
-                    if($this_user_clean_up)
-                    {
-                        echo '<a href="index.php?page=edit_cleaned_up&cleaned_up_id='.$post -> getPost['cu_id'].'"><button>Edytuj posprzątanie</button></a>
-                        <a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=removed"><button>Usuń posprzątanie</button></a>';
-                    }
+                    //zdjęcia trzeba dodać!
+                    echo '<h1>Posprzątano</h1>
+                    
+                    <p>'.$post -> getPost['cu_description'].'</p>';
 
-                    if(!$this_user_clean_up && $user_mod)
+                    echo '<p>'.$post -> getPost['cu_date'].', <a href="index.php?page=view_user&user_id='.$post -> getPost['cu_id_user'].'">'.$post -> getPost['cu_login'].'</a></p>';
+
+                    
+                    if($signed_in)
                     {
-                        switch($post -> getPost['cu_status'])
+                        if($this_user_clean_up)
                         {
-                            case 'waiting':
+                            echo '<a href="index.php?page=edit_cleaned_up&cleaned_up_id='.$post -> getPost['cu_id'].'"><button>Edytuj posprzątanie</button></a>
+                            <a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=removed"><button>Usuń posprzątanie</button></a>';
+                        }
+
+                        if($user_mod)
+                        {
+                            switch($post -> getPost['cu_status'])
                             {
-                                echo '<a href="action.php?file=change_cleaned_up_status?&cleaned_up_id='.$post -> getPost['cu_id'].'&status=approved"><button>Zaakceptuj posprzątanie</button></a>
-                                <a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=removed"><button>Odrzuć posprzątanie</button></a>';
-                                break;
-                            }
-                            case 'approved':
-                            {
-                                echo '<a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=removed"><button>Usuń posprzątanie</button></a>';
-                                break;
+                                case 'waiting':
+                                {
+                                    echo '<a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=approved"><button>Zaakceptuj posprzątanie</button></a>
+                                    <a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=removed"><button>Odrzuć posprzątanie</button></a>';
+                                    break;
+                                }
+                                case 'approved':
+                                {
+                                    if(!$this_user_clean_up)
+                                    {
+                                        echo '<a href="action.php?file=change_cleaned_up_status&cleaned_up_id='.$post -> getPost['cu_id'].'&status=removed"><button>Usuń posprzątanie</button></a>';
+                                    }
+                                    break;
+                                
+                                }
                             }
                         }
                     }
+
+                    
+
                     
 
                 }
@@ -195,13 +228,12 @@ switch($error)
                     }
                 }
             }
-            else
-            {
-                echo 'disabled';
-            }
+            
             echo '<div>
-            <button '.$add_like.'><a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_like == '' ? '1':'-1').'" '.($signed_in ? '':'disabled').'>Likes: '.$post -> getPost['likes'].'</a></button>
-            <button '.$add_dislike.'><a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_dislike == '' ? '0':'-1').'" '.($signed_in ? '':'disabled').'>Dislikes: '.$post -> getPost['dislikes'].'</a></button>
+            <a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_like == '' ? '1':'-1').'" >
+            <button '.$add_like.' '.($signed_in ? '':'disabled').'>Likes: '.$post -> postReactions['likes'].'</button></a>
+            <a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_dislike == '' ? '0':'-1').'">
+            <button '.$add_dislike.' '.($signed_in ? '':'disabled').'>Dislikes: '.$post -> postReactions['dislikes'].'</button></a>
             </div>
             
             
@@ -210,7 +242,8 @@ switch($error)
             {
                 echo '<FORM method="POST" action="action.php">
                 <input type="hidden" name="file" value="add_comment">
-                <textarea name="text"></textarea>
+                <input type="hidden" name="post_id" value="'.$post_id.'">
+                <textarea name="text" required></textarea>
                 <input type="submit">';        
             }
             else
@@ -218,14 +251,14 @@ switch($error)
                 echo '<p>Aby dodać komentarz musisz się zalogować.</p>';
             }
 
-            if($post -> comments['text'] != NULL)
+            if($post -> comments[0]['id'] != NULL)
             {
                 foreach($post -> comments as $row)
                 {
                     echo '<div>
                     <h3><a href="index.php?page=view_user&user_id='.$row['id_user'].'">'.$row['login'].'</a>, '.$row['date'].'</h3>
                     <p>'.$row['text'].'</p>';
-                    if($row['user_id'] == $user_id or $user_mod)
+                    if($signed_in && ($row['id_user'] == $user_id or $user_mod))
                     {
                         echo '<button><a href="action.php?file=delete_comment&comment_id='.$row['id'].'">Usuń</a></button>';
                     }

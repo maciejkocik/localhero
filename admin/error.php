@@ -75,6 +75,46 @@ function error($page, $alert_type, $id, $error_type = "") {
                             echo "Zmieniono status.";
                             break;
                         }
+                        case 3:
+                        {
+                            echo "Dodano komentarz.";
+                            break;
+                        }
+                        case 4:
+                        {
+                            echo "Usunięto komentarz.";
+                            break;
+                        }
+                        case 5:
+                        {
+                            echo "Zmieniono status posprzątania.";
+                            break;
+                        }
+                        case 6:
+                        {
+                            echo "Usunięto posprzątanie.";
+                            break;
+                        }
+                    }
+                    break;
+                case 'danger':
+                    echo 'Wystąpił błąd.';
+            }   
+            
+            break;
+        }
+        case 'view_user':
+        {
+            switch($alert_type) 
+            {
+                case 'success':
+                    switch($id)
+                    {
+                        case 1:
+                        {
+                            echo "Zmieniono status użytkownika.";
+                            break;
+                        }
                     }
                     break;
                 case 'danger':

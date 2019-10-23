@@ -3,29 +3,29 @@ $error = 1;
 
 if($signed_in)
 {
-    if(isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id'])
+    if(isset($_REQUEST['user_id']) && is_numeric($_REQUEST['user_id'])
     && isset($_REQUEST['reaction']) && $_REQUEST['reaction'] == 1 or $_REQUEST['reaction'] == 0 or $_REQUEST['reaction'] == -1)
     {
-        $post_id = $_REQUEST['post_id'];
+        $here_user_id = $_REQUEST['user_id'];
         $reaction = $_REQUEST['reaction'];
-        $post = new Post();
+        $user = new User();
 
-        if($post -> resultConnection)
+        if($user -> resultConnection)
         {
-            $post -> getOnlyPost($post_id);
+            $user -> getUser($here_user_id);
 
-            if($post -> resultGetOnlyPost && $post -> onlyPost['id'] != NULL)
+            if($user -> resultGetUser && $user -> getUser['id'] != NULL)
             {
                 
-                $post -> getReactionInfo($post_id, $user_id);
+                $user -> getReactionInfo($user_id, $here_user_id,);
 
-                if($post -> reactionInfo['id'] != NULL)
+                if($user -> reactionInfo['id'] != NULL)
                 {
                     if($reaction == 1 or $reaction == 0)
                     {
-                        $post -> editReaction($post_id,$user_id,$reaction);
+                        $user -> editReaction($user_id,$here_user_id,$reaction);
 
-                        if($post -> resultEditReaction)
+                        if($user -> resultEditReaction)
                         {
                             $error =-1;
                         }
@@ -33,9 +33,9 @@ if($signed_in)
 
                     if($reaction == -1)
                     {
-                        $post -> deleteReaction($post_id,$user_id);
+                        $user -> deleteReaction($user_id, $here_user_id,);
 
-                        if($post -> resultDeleteReaction)
+                        if($user -> resultDeleteReaction)
                         {
                             $error =-1;
                         }
@@ -45,7 +45,7 @@ if($signed_in)
                 {
                     if($reaction == 1 or $reaction == 0)
                     {
-                        $post -> addReaction($post_id,$user_id,$reaction);
+                        $user -> addReaction($user_id, $here_user_id, $reaction);
 
                         if($post -> resultAddReaction)
                         {
@@ -58,7 +58,7 @@ if($signed_in)
 
         if($error != -1)
         {
-            header('Location:index.php?page=view_post&error=1');
+            header('Location:index.php?page=view_user&error=1');
             exit;
         }
     }
@@ -66,7 +66,7 @@ if($signed_in)
 
 if($error == -1)
 {
-    header('Location:index.php?page=view_post&post_id='.$post_id);
+    header('Location:index.php?page=view_user&user_id='.$here_user_id);
     exit;
 }
 header('Location:index.php?error='.$error);
