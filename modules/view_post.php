@@ -160,6 +160,8 @@ switch($error)
                     
                     <p>'.$post -> getPost['cu_description'].'</p>';
 
+                    echo '<p>'.$post -> getPost['cu_date'].', <a href="index.php?page=view_user&user_id='.$post -> getPost['cu_id_user'].'">'.$post -> getPost['cu_login'].'</a></p>';
+
                     
                     if($signed_in)
                     {
@@ -191,6 +193,9 @@ switch($error)
                             }
                         }
                     }
+
+                    
+
                     
 
                 }
@@ -238,7 +243,7 @@ switch($error)
                 echo '<FORM method="POST" action="action.php">
                 <input type="hidden" name="file" value="add_comment">
                 <input type="hidden" name="post_id" value="'.$post_id.'">
-                <textarea name="text"></textarea>
+                <textarea name="text" required></textarea>
                 <input type="submit">';        
             }
             else
@@ -246,14 +251,14 @@ switch($error)
                 echo '<p>Aby dodać komentarz musisz się zalogować.</p>';
             }
 
-            if($post -> comments[0]['text'] != NULL)
+            if($post -> comments[0]['id'] != NULL)
             {
                 foreach($post -> comments as $row)
                 {
                     echo '<div>
                     <h3><a href="index.php?page=view_user&user_id='.$row['id_user'].'">'.$row['login'].'</a>, '.$row['date'].'</h3>
                     <p>'.$row['text'].'</p>';
-                    if($signed_in && $row['id_user'] == $user_id or $user_mod)
+                    if($signed_in && ($row['id_user'] == $user_id or $user_mod))
                     {
                         echo '<button><a href="action.php?file=delete_comment&comment_id='.$row['id'].'">Usuń</a></button>';
                     }

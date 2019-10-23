@@ -24,6 +24,11 @@ class Post extends DBConnect
     public $resultAddCleanedUp = false;
     public $resultGetLastCleanedUp = false;
     public $resultOnlyCleanedUpByPost = false;
+    public $resultOnlyCleanedUp = false;
+    public $resultChangeCleanedUpStatus = false;
+    public $resultDeleteCleanedUp = false;
+    public $resultGetUserPost = false;
+    public $resultGetUserCleanedUp = false;
 
 
     //data
@@ -37,6 +42,7 @@ class Post extends DBConnect
     public $only_Comment;
     public $onlyCleanedUpByPost;
     public $lastCleanedUp;
+    public $onlyCleanedUp;
 
 
     public function addPost($user_id, $title, $description, $lat, $lng, $status)
@@ -89,7 +95,7 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT IF(user.id = post.id_user, user.login,NULL) AS p_login, IF(user.id = cleaned_up.id_user, user.id,NULL) AS cu_login,
+            $stmt = $this -> connection -> prepare('SELECT IF(user.id = post.id_user, user.login,NULL) AS p_login, IF(user.id = cleaned_up.id_user, user.login,NULL) AS cu_login,
             post.id AS p_id, post.id_user AS p_id_user, post.title AS p_title, post.description AS p_description, post.date AS p_date, post.lat AS p_lat, post.lng AS p_lng, post.status AS p_status,
             cleaned_up.id AS cu_id, cleaned_up.id_user AS cu_id_user, cleaned_up.description AS cu_description, cleaned_up.date AS cu_date, cleaned_up.status AS cu_status
             FROM (post LEFT JOIN cleaned_up ON post.id = cleaned_up.id_post), user 
@@ -224,6 +230,27 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultOnlyCleanedUpByPost = false;
+		}
+    }
+    public function getOnlyCleanedUp($cleaned_up_id)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE id = :cleaned_up_id');
+            $stmt -> bindParam(':cleaned_up_id',$cleaned_up_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+			$this -> onlyCleanedUp = $stmt -> fetch();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultOnlyCleanedUp = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultOnlyCleanedUp = false;
 		}
     }
 
@@ -446,6 +473,81 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultGetLastCleanedUp = false;
+		}
+    }
+
+
+
+    public function deleteCleanedUp($cleaned_up_id)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('DELETE FROM cleaned_up WHERE id = :cleaned_up_id');
+            $stmt -> bindParam(':cleaned_up_id',$cleaned_up_id,PDO::PARAM_INT);
+
+            $stmt ->execute();
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultDeleteCleanedUp = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultDeleteCleanedUp = false;
+		}
+    }
+
+    public function getUserPosts($user_id, &$start_id, &$table)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE id_user = :id_user');
+            
+            $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
+            $stmt ->execute();
+
+
+			while($row = $stmt -> fetch())
+			{
+				$table[$start_id] = $row;
+                $start_id++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetUserPost = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetUserPost = false;
+		}
+    }
+
+    public function getUserCleanedUp($user_id, &$start_id, &$table)
+    {
+        try
+        {
+            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE id_user = :id_user');
+            
+            $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
+            $stmt ->execute();
+
+
+           
+			while($row = $stmt -> fetch())
+			{
+				$table[$start_id] = $row;
+				$start_id++;
+			}
+
+            $stmt -> closeCursor();
+            unset($stmt);
+
+            $this -> resultGetUserCleanedUp = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetUserCleanedUp = false;
 		}
     }
 

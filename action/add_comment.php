@@ -4,7 +4,7 @@ $error = 1;
 if($signed_in)
 {
     if(isset($_POST['post_id']) && is_numeric($_POST['post_id'])
-    && isset($_POST['text']))
+    && isset($_POST['text']) && strlen($_POST['text']) > 0)
     {
         $post_id = $_POST['post_id'];
         $text = $_POST['text'];

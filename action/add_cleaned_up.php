@@ -110,7 +110,7 @@ else
 
 if($error == -1)
 {
-    header('Location:index.php?page=view_post&post_id='.$post -> lastCleanedUp['id'].'&info=1');
+    header('Location:index.php?page=view_post&post_id='.$post_id.'&info=1');
     exit;
 }
 else
