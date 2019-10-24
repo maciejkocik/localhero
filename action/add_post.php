@@ -15,8 +15,8 @@ if($signed_in)
         }
 
         $title = $_POST['title'];
-        $lat= $_POST['lat'];
-        $lng= $_POST['lng'];
+        $lat = $_POST['lat'];
+        $lng = $_POST['lng'];
 
 
         

@@ -38,8 +38,8 @@ if($signed_in){
 			<label>Lokalizacja</label>
             <div id="map2"></div>
 
-            <input id="latitude" name="latitude" type="hidden" value="" />
-            <input id="longitude" name="longitude" type="hidden" value="" />
+            <input id="latitude" name="lat" type="hidden" value="" />
+            <input id="longitude" name="lng" type="hidden" value="" />
             
 			</div>
 			<div class="form-group">
@@ -47,6 +47,8 @@ if($signed_in){
             <input type="hidden" name="MAX_FILE_SIZE" value="8388608">
 			<input name="imagename[]" id="image_upload" aria-busy=""type="file" class="form-control-file" multiple accept="image/png, image/jpeg">
 			</div>
+          
+            <input type="hidden" name="file" value="add_post">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>

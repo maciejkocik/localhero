@@ -93,11 +93,11 @@ switch($error)
         {
             if($post -> getPost['p_status'] == 'removed')
             {
-                echo '<p>Wpis został ustawiony jako prywatny lub odrzucony.</p>';
+                echo '<p>Wpis został usunięty lub odrzucony przez moderatora.</p>';
             }
             else if($post -> getPost['p_status'] == 'waiting')
             {
-                echo '<p>Wpis czeka na weryfikację przez administratora</p>';
+                echo '<p>Wpis czeka na weryfikację przez moderatora.</p>';
             }
 
             if($signed_in)
@@ -107,7 +107,7 @@ switch($error)
                     echo '<a href="index.php?page=edit_post&post_id='.$post_id.'"><button>Edytuj</button></a>';
                     if($post -> getPost['p_status'] != 'removed')
                     {
-                        echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Ustaw jako prywatny</button></a>';
+                        echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Usuń</button></a>';
                     }
                 }
                 if($user_mod)
@@ -152,7 +152,7 @@ switch($error)
             {
                 if($post -> getPost['cu_status'] == 'waiting')
                 {
-                    echo '<p>Posprzątanie czeka na weryfikację przez administratora</p>';
+                    echo '<p>Posprzątanie czeka na weryfikację przez moderatora</p>';
                 }
 
                 if($post -> getPost['cu_status'] == 'approved' or ($signed_in && $user_mod == 1 or $this_user_clean_up))

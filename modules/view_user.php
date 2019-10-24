@@ -153,12 +153,12 @@ switch($error)
                             }
                             case 'removed':
                             {
-                                echo '<p>Ustawiono jako prywatne lub usunięto przez administratora</p>';
+                                echo '<p>Post usunięty</p>';
                                 break;
                             }
                             case 'waiting':
                             {
-                                echo '<p>Oczekuje na akceptację przez administratora.</p>';
+                                echo '<p>Oczekuje na akceptację</p>';
                                 break;
                             }
                         }

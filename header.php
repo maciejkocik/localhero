@@ -37,7 +37,7 @@ if(isset($_GET['page'])){
                             <li class="nav-item dropdown">
                                 <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Witaj, <strong><?php echo $user_login; ?></strong></a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="index.php?page=user">Panel użytkownika</a>
+                            <a class="dropdown-item" href="index.php?page=view_user">Panel użytkownika</a>
                             <a class="dropdown-item" href="action.php?file=log_out">Wyloguj się</a>
                             </div>
                             </li>

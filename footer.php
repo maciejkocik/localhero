@@ -26,7 +26,8 @@ $(function() {
     }
   });
 });
-        </script>
+    </script>
+
     </body>
     
 </html>

@@ -12,57 +12,7 @@
       </section>
      
     <div id="map"></div>
-     
-    <script>  
-    var map, map2;
-    var userLocation;
-    var marker;
-
-    function initMap() {
-        var myOptions = {
-            center: new google.maps.LatLng(51.9358379,16.8921266),
-            zoom: 5
-        }
-     
-        map = new google.maps.Map(document.getElementById("map"), myOptions);
-        
-        map2 = new google.maps.Map(document.getElementById("map2"), myOptions);
-        
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function(position) {
-            var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
-            };
-            console.log(pos);
-            map2.setCenter(pos);
-            map2.setZoom(10);
-          });
-       }
-        
-        google.maps.event.addListener(map2, 'click', function(event) {
-            placeMarker(event.latLng, map2);
-        });
-    }; 
     
-    function placeMarker(location, map) {
-      if (marker) {
-        marker.setPosition(location);
-      } else {
-        marker = new google.maps.Marker({
-          position: location,
-          map: map
-        });
-      }
-
-      $("#latitude").val(location.lat());
-      $("#longitude").val(location.lng());
-    
-
-    }
-
-
-    </script>
 
       <div class="album py-5 bg-light">
         <h2 class="text-center display-3" id="gallery-heading">Aktualne problemy</h2>
