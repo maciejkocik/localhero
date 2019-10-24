@@ -16,6 +16,7 @@ class User extends DBConnect
     public $resultDeleteReaction = false;
     public $resultAddReaction = false;
     public $resultGetBlockedUsersMod = false;
+    public $resultGetRanking = false;
     
     //data
     public $loginCheck = true;
@@ -24,6 +25,7 @@ class User extends DBConnect
     public $getUser;
     public $reactionInfo;
     public $blockedUsersMod;
+    public $ranking;
 
     public function registrationCheck($login, $email)
     {
@@ -155,12 +157,22 @@ class User extends DBConnect
 		}
     }
 
-    public function getReactionInfo($user_id_from, $user_id_to)
+    public function getReactionInfo($user_id_to)
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM user_reaction WHERE id_user_from = :id_from AND id_user_to = :id_to');
-            $stmt -> bindParam(':id_from',$user_id_from,PDO::PARAM_INT);
+            $stmt = $this -> connection -> prepare('SELECT user.id,
+            (SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") AS posts,
+            (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") AS cleaned_up,
+            (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1) AS comments,
+            SUM((SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") * 10
+            + (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") * 10
+            + (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1)*2
+            + (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id_user = user.id AND post.id = post_reaction.id_post AND post.status="approved")
+            - (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction, post WHERE post.id_user = user.id AND post.id = post_reaction.id_post AND post.status="approved")
+            )
+            AS points
+            FROM user WHERE user.id = :id_to');
             $stmt -> bindParam(':id_to',$user_id_to,PDO::PARAM_INT);
 
             $stmt ->execute();
@@ -178,72 +190,7 @@ class User extends DBConnect
 		}
     }
 
-    public function editReaction($user_id_from, $user_id_to, $reaction)
-    {
-        try
-        {
-            $stmt = $this -> connection -> prepare('UPDATE user_reaction SET reaction = :reaction WHERE id_user_from = :id_from AND id_user_to=:id_to');
-            $stmt -> bindParam(':reaction',$reaction,PDO::PARAM_STR);
-            $stmt -> bindParam(':id_from',$user_id_from,PDO::PARAM_INT);
-            $stmt -> bindParam(':id_to',$user_id_to,PDO::PARAM_INT);
-
-            $stmt ->execute();
-
-            $stmt -> closeCursor();
-            unset($stmt);
-
-            $this -> resultEditReaction = true;
-        }
-        catch(PDOException $e)
-		{
-			$this -> resultEditReaction = false;
-		}
-    }
-
-    public function addReaction($user_id_from, $user_id_to, $reaction)
-    {
-        try
-        {
-            $stmt = $this -> connection -> prepare('INSERT INTO user_reaction (id_user_from, id_user_to, reaction)
-            VALUES (:id_from, :id_to, :reaction)');
-            $stmt -> bindParam(':reaction',$reaction,PDO::PARAM_STR);
-            $stmt -> bindParam(':id_from',$user_id_from,PDO::PARAM_INT);
-            $stmt -> bindParam(':id_to',$user_id_to,PDO::PARAM_INT);
-
-            $stmt ->execute();
-
-            $stmt -> closeCursor();
-            unset($stmt);
-
-            $this -> resultAddReaction = true;
-        }
-        catch(PDOException $e)
-		{
-			$this -> resultAddReaction = false;
-		}
-    }
-
-    public function deleteReaction($user_id_from, $user_id_to)
-    {
-        try
-        {
-            $stmt = $this -> connection -> prepare('DELETE FROM user_reaction
-            WHERE id_user_from = :id_from AND id_user_to = :id_to');
-            $stmt -> bindParam(':id_from',$user_id_from,PDO::PARAM_INT);
-            $stmt -> bindParam(':id_to',$user_id_to,PDO::PARAM_INT);
-
-            $stmt ->execute();
-
-            $stmt -> closeCursor();
-            unset($stmt);
-
-            $this -> resultDeleteReaction = true;
-        }
-        catch(PDOException $e)
-		{
-			$this -> resultDeleteReaction = false;
-		}
-    }
+    
 
     public function getBlockedUsersMod()
     {
@@ -264,6 +211,40 @@ class User extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultGetBlockedUsersMod = false;
+		}
+    }
+
+
+    public function getRanking()
+    {
+        try
+        {
+            $stmt = $this -> connection -> query('SELECT user.id, user.login, user.date, 
+            (SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") AS posts,
+            (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") AS cleaned_up,
+            (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1) AS comments,
+            SUM((SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") * 10
+            + (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") * 10
+            + (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1)*2
+            + (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id_user = user.id AND post.id = post_reaction.id_post AND post.status="approved")
+            - (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction, post WHERE post.id_user = user.id AND post.id = post_reaction.id_post AND post.status="approved")
+            )
+            AS points
+            FROM user WHERE user.status=1 ORDER BY points DESC LIMIT 0,100');
+
+            $i = 0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> ranking[$i] = $row;
+                $i++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetRanking = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetRanking = false;
 		}
     }
 }

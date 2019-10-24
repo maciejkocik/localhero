@@ -33,18 +33,13 @@ or $signed_in)
             $post -> getUserPosts($here_user_id, $start_id, $table);
             $post -> getUserCleanedUp($here_user_id, $start_id, $table);
 
-            $reaction = true;
-            if($signed_in)
-            {
-                $user -> getReactionInfo($user_id,$here_user_id);
+            
+                $user -> getReactionInfo($here_user_id);
 
-                if(!$user -> resultGetReactionInfo)
-                {
-                    $reaction = false;
-                }
-            }
+               
+        
 
-            if($post -> resultGetUserCleanedUp && $post -> resultGetUserPost && $reaction)
+            if($post -> resultGetUserCleanedUp && $post -> resultGetUserPost && $user -> resultGetReactionInfo)
             {
                 $activity = array_orderby($table, 'date', SORT_DESC);
                 $error = -1;
@@ -77,49 +72,24 @@ switch($error)
         }
         
         echo '<h1>Użytkownik: '.$user -> getUser['login'].'</h1>
-        <p>data dołączenia: '.$user -> getUser['date'].'</p>';
+        <p>data dołączenia: '.$user -> getUser['date'].'</p>
+        <p>Punkty: '.$user -> reactionInfo['points'].', Posty: '.$user -> reactionInfo['posts'].', Posprzątania: '.$user -> reactionInfo['cleaned_up'].', Komentarze: '.$user -> reactionInfo['comments'].'</p>';
 
         if($user -> getUser['status'] == 0)
         {
             echo '<p>Użytkownik zablokowany.</p>';
         }
 
-        if($signed_in && $user_mod && $user_id != $here_user_id)
+        if($signed_in && $user_mod && !$user -> getUser['moderator'])
         {
             echo '<a href="action.php?file=change_user_status&user_id='.$user -> getUser['id'].'&status='.($user -> getUser['status'] == 1 ? 0 : 1).'">
             <button>'.($user -> getUser['status'] == 1 ? 'Zablokuj użytkownika' : 'Przywróć użytkownika').'</button>
             </a>';
         }
-       
-
-            $add_like = '';
-            $add_dislike ='';
-
-            if($signed_in)
-            {
-                if($user -> reactionInfo['reaction'] != NULL)
-                {
-                    if($user -> reactionInfo['reaction'] == 1)
-                    {
-                        $add_like = 'style="color:blue;"';
-                    }
-                    else
-                    {
-                        $add_dislike = 'style="color:blue;"';
-                    }
-                }
-            }
-            
-            echo '<div>
-            <a href="action.php?file=add_reaction_user&user_id='.$user -> getUser['id'].'&reaction='.($add_like == '' ? '1':'-1').'" >
-            <button '.$add_like.' '.($signed_in ? '':'disabled').'>Likes: '.$user -> getUser['likes'].'</button></a>
-            <a href="action.php?file=add_reaction_user&user_id='.$user -> getUser['id'].'&reaction='.($add_dislike == '' ? '0':'-1').'">
-            <button '.$add_dislike.' '.($signed_in ? '':'disabled').'>Dislikes: '.$user -> getUser['dislikes'].'</button></a>
-            </div>
-            
+            echo '
             <h2>Ostatnia Aktywność:</h2>';
 
-            if($activity[0]['id']!= NULL)
+            if(isset($activity[0]['id']) && $activity[0]['id'] != NULL)
             {
                 foreach($activity as $row)
                 {
