@@ -165,7 +165,7 @@ class User extends DBConnect
             (SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") AS posts,
             (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") AS cleaned_up,
             (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1) AS comments,
-            SUM((SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") * 10
+            ((SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") * 10
             + (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") * 10
             + (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1)*2
             + (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id_user = user.id AND post.id = post_reaction.id_post AND post.status="approved")
@@ -223,7 +223,7 @@ class User extends DBConnect
             (SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") AS posts,
             (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") AS cleaned_up,
             (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1) AS comments,
-            SUM((SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") * 10
+            ((SELECT COUNT(post.id_user) FROM post WHERE post.id_user = user.id AND post.status="approved") * 10
             + (SELECT COUNT(cleaned_up.id_user) FROM cleaned_up WHERE cleaned_up.id_user = user.id AND cleaned_up.status="approved") * 10
             + (SELECT COUNT(comment.id_user) FROM comment WHERE comment.id_user = user.id AND comment.status=1)*2
             + (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id_user = user.id AND post.id = post_reaction.id_post AND post.status="approved")
