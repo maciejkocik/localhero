@@ -25,19 +25,41 @@ switch($error)
     }
     case -1:
     {
+
+        echo 
+        '
+
+        <style>
+        .embed-responsive .card-img-top {
+            object-fit: cover;
+        }
+                </style>
+
+
+
+
+        <div class="album py-5 bg-light">
+        
+        <h2 class="text-center display-3" id="gallery-heading">Zablokowani użytkownicy</h2>
+        <div class="container">
+          <div class="row">';
         if($user -> blockedUsersMod[0]['id']!= NULL)
         {
             foreach($user -> blockedUsersMod as $row)
             {
-                echo '
-                <div>
-                <p><a href="index.php?page=view_user&user_id='.$user -> blockedUsersMod['id'].'">Użytkownik: '.$user -> blockedUsersMod['login'].'</a></p>
-                <p>data dołączenia: '.$user -> blockedUsersMod['date'].'</p>
-                </div>';
-
-                            
-
-                            echo '</div>';
+                echo'
+                <div class="col-md-4">
+                  <div class="card mb-4 box-shadow">
+                    
+                    <div class="card-body">
+                      <h5 class="card-title">'.$row['login'].'</h5>
+                      <div class="d-flex justify-content-between align-items-center">
+                      <a href="index.php?page=view_user&user_id='.$row['id'].'<button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                        <small class="text-muted">Dołączył: '.$row['date'].'</small>
+                      </div>
+                    </div>
+                    </div>
+                  </div>';
             }
         }
         else
