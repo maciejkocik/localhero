@@ -24,6 +24,7 @@ if($signed_in){
         <h4 class="modal-title" id="modalLabel">Zgłoś problem</h4>
       </div>
       <div class="modal-body">
+            <?php if(isset($_GET['error'])) error("add_post", "danger", $_GET['error']); ?>
             <div class="form-group">
 			<label>Tytuł</label>
 			<input type="text" name="title" class="form-control" placeholder="Tytuł"

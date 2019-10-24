@@ -1,75 +1,45 @@
 <?php
 
-if($signed_in)
-{
-  if(isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id']))
-  {
-    echo '
-    
+if($signed_in) {
+    if(isset($_REQUEST['post_id']) && is_numeric($_REQUEST['post_id'])) {
+?>
+<script>
+$(document).ready(function(){
+    $('#addCleanedUp').modal('show');
+});
+</script>"; 
+<?php include_once("view_post.php"); ?>
 
-   
+<div class="modal fade" id="addCleanedUp" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+    <form method="POST" action="action.php" enctype="multipart/form-data">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modalLabel">Dodaj posprzątanie</h4>
+      </div>
+      <div class="modal-body">
+			<div class="form-group">
+			<label>Opis</label>
+			<textarea name="description" class="form-control" placeholder="Opis"><?php echo (isset($_GET['description']) ? $_GET['description']:''); ?></textarea>
+			</div>
+			<div class="form-group">
+			<label>Zdjęcia</label>
+            <input type="hidden" name="MAX_FILE_SIZE" value="8388608">
+			<input name="imagename[]" id="image_upload" aria-busy=""type="file" class="form-control-file" multiple accept="image/png, image/jpeg">
+			</div>
+          
+            <input type="hidden" name="post_id" value="<?php echo $_REQUEST['post_id']; ?>">
+            <input type="hidden" name="file" value="add_cleaned_up">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Zamknij</button>
+        <button type="submit" class="submit btn btn-primary">Wyślij</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>   
 
-    <FORM method="POST" action="action.php" enctype="multipart/form-data">
-    
-
-    <script>
-    $(function() {
-
-        var // Define maximum number of files.
-            max_file_number = 10,
-            // Define your form id or class or just tag.
-            $form = $(\'FORM\'), 
-            // Define your upload field class or id or tag.
-            $file_upload = $(\'#image\', $form), 
-            // Define your submit class or id or tag.
-            $button = $(\'.submit\', $form); 
-      
-        // Disable submit button on page ready.
-        $button.prop(\'disabled\', \'disabled\');
-      
-        $file_upload.on(\'change\', function () {
-          var number_of_images = $(this)[0].files.length;
-          if (number_of_images > max_file_number) {
-            alert(`You can upload maximum ${max_file_number} files.`);
-            $(this).val(\'\');
-            $button.prop(\'disabled\', \'disabled\');
-          } else {
-            $button.prop(\'disabled\', false);
-          }
-        });
-      });
-      </script>
-
-
-    <h1>Dodawanie Posprzątania problemu</h1>';
-    
-    if(isset($_GET['error']))
-    {
-        if($_GET['error'] == 1)
-        {
-            echo '<p>Wystąpił błąd, spróbuj ponownie</p>';
-        }
-    }
-    
-    echo '
-
-    Dodaj zdjęcia (jpg, png): <input type="file" id="image" name="imagename[]" '.(isset($_GET['image_name']) ? 'value="'.$_GET['image_name'].'"':'').' multiple accept="image/png, image/jpeg" &gt><br><br>
-    
-    '.(isset($_GET['photos_error']) ? '<p>Wystąpił błąd ze zdjęciami. Pamiętaj, że możesz załadować maksymalnie 10 zdjęć.</p>':'').' 
-
-    Opis: <textarea name="description">'.(isset($_GET['description']) ? $_GET['description']:'').'</textarea>
-    <input type="hidden" name="file" value="add_cleaned_up">
-    <input type="hidden" name="post_id" value="'.$_REQUEST['post_id'].'">
-    <input type="submit">
-    ';
-  }
-  else
-  {
-    echo '<p>Wystąpił błąd.</p>';
-  }
-}
-else
-{
-    include_once('modules/sign_in.php');
-}
+<?php }
+} else header("Location:index.php");
 ?>

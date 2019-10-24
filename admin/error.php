@@ -59,7 +59,6 @@ function error($page, $alert_type, $id, $error_type = "") {
             } else echo 'Wystąpił błąd, spróbuj ponownie.';
             break;
         case 'view_post':
-        {
             switch($alert_type) 
             {
                 case 'success':
@@ -67,7 +66,7 @@ function error($page, $alert_type, $id, $error_type = "") {
                     {
                         case 1:
                         {
-                            echo "Dodano Wpis.";
+                            echo "Wpis dodany pomyślnie.";
                             break;
                         }
                         case 2:
@@ -102,27 +101,24 @@ function error($page, $alert_type, $id, $error_type = "") {
             }   
             
             break;
-        }
+
         case 'view_user':
-        {
-            switch($alert_type) 
-            {
+            switch($alert_type){
                 case 'success':
                     switch($id)
                     {
                         case 1:
-                        {
                             echo "Zmieniono status użytkownika.";
                             break;
-                        }
                     }
                     break;
+                    
                 case 'danger':
                     echo 'Wystąpił błąd.';
+                    break;
             }   
-            
             break;
-        }
+
 
     }  
     echo '      <button type="button" class="close" data-dismiss="alert" aria-label="Close">

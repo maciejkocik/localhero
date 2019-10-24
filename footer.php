@@ -3,6 +3,79 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
+    <script>  
+    var map, map2, map3;
+    var userLocation;
+    var marker;
+
+    function initMap() {
+        var myOptions = {
+            center: new google.maps.LatLng(51.9358379,16.8921266),
+            zoom: 5
+        }
+     
+        <?php if(!isset($_GET['page']) || $_GET['page'] == "add_post" || $_GET['page'] == "main_page"){ ?>
+        map = new google.maps.Map(document.getElementById("map"), myOptions);
+        <?php } ?>
+        
+        <?php if($signed_in){ ?>
+        map2 = new google.maps.Map(document.getElementById("map2"), myOptions);
+        <?php } ?>
+        
+        <?php if(isset($_GET['page']) && ($_GET['page'] == "view_post" || $_GET['page'] == 'add_cleaned_up') && isset($post)){
+    
+        echo 'var postLocation = {
+                lat: '.$post->getPost['p_lat'].',
+                lng: '.$post->getPost['p_lng'].'
+        };';   
+    
+        ?>
+ 
+        map3 = new google.maps.Map(document.getElementById("map3"), myOptions);
+        map3.setCenter(postLocation);
+        map3.setZoom(15);
+        
+        var postMarker = new google.maps.Marker({
+               position: postLocation,
+               map: map3,
+            });
+        
+        <?php } ?>
+        
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var userLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            map2.setCenter(userLocation);
+            map2.setZoom(10);
+          });
+       }
+        
+        google.maps.event.addListener(map2, 'click', function(event) {
+            placeMarker(event.latLng, map2);
+        });
+    }; 
+    
+    function placeMarker(location, map) {
+      if (marker) {
+        marker.setPosition(location);
+      } else {
+        marker = new google.maps.Marker({
+          position: location,
+          map: map
+        });
+      }
+
+      $("#latitude").val(location.lat);
+      $("#longitude").val(location.lng);
+    
+
+    }
+
+
+    </script>
 
         <script>
 $(function() {
