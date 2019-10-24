@@ -32,7 +32,7 @@ if($signed_in){
             </div>
 			<div class="form-group">
 			<label>Opis</label>
-			<textarea name="desc" class="form-control" placeholder="Opis"><?php echo (isset($_GET['description']) ? $_GET['description']:''); ?></textarea>
+			<textarea name="description" class="form-control" placeholder="Opis"><?php echo (isset($_GET['description']) ? $_GET['description']:''); ?></textarea>
 			</div>
 			<div class="form-group">
 			<label>Lokalizacja</label>
@@ -56,42 +56,7 @@ if($signed_in){
     </div>
   </div>
 </div>
-<!--
-    echo '
-    
 
-   
-
-    <FORM method="POST" action="action.php" enctype="multipart/form-data">
-    
-
-
-
-
-    <h1>Dodawanie wpisu</h1>';
-    
-    if(isset($_GET['error']))
-    {
-        if($_GET['error'] == 1)
-        {
-            echo '<p>Wystąpił błąd, spróbuj ponownie</p>';
-        }
-    }
-    
-    echo '
-    Tytuł: <input type="text" name="title" '.(isset($_GET['title']) ? 'value="'.$_GET['title'].'"':'').' maxlength=400 minlength=3 required>
-
-    Dodaj zdjęcia (jpg, png): <input type="file" id="image" name="imagename[]" '.(isset($_GET['image_name']) ? 'value="'.$_GET['image_name'].'"':'').' multiple accept="image/png, image/jpeg" &gt><br><br>
-    
-    '.(isset($_GET['photos_error']) ? '<p>Wystąpił błąd ze zdjęciami. Pamiętaj, że możesz załadować maksymalnie 10 zdjęć.</p>':'').' 
-
-    Opis: <textarea name="description">'.(isset($_GET['description']) ? $_GET['description']:'').'</textarea>
-    <input type="hidden" name="lat" value="'.(isset($_GET['lat']) ? $_GET['lat']:'0').'">
-    <input type="hidden" name="lng" value="'.(isset($_GET['lng']) ? $_GET['lng']:'0').'">
-    <input type="hidden" name="file" value="add_post">
-    <input type="submit">
-    ';
--->
 <?php           
 } else header("Location:index.php?page=sign_in");
 ?>
