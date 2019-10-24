@@ -2,7 +2,7 @@
 include_once('head.php');  
 
 
-$active = array();
+$active = array("","","");
 
 if(isset($_GET['page'])){
     switch($_GET['page']) {
