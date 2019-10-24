@@ -634,8 +634,8 @@ class Post extends DBConnect
         try
         {
             $stmt = $this -> connection -> query('SELECT post.*,
-            (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS likes,
-            (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS dislikes
+            (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS likes,
+            (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS dislikes
             FROM post WHERE post.status="approved" ORDER BY post.id DESC LIMIT 0,3');
 
             $i = 0;
@@ -659,8 +659,8 @@ class Post extends DBConnect
         try
         {
             $stmt = $this -> connection -> query('SELECT post.*,
-            (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS likes,
-            (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS dislikes
+            (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS likes,
+            (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS dislikes
             FROM post WHERE post.status="approved" ORDER BY likes DESC LIMIT 0,3');
 
             $i = 0;
