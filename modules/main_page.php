@@ -2,12 +2,18 @@
  <main role="main">
      <section class="jumbotron text-center">
         <div class="container">
-          <h1 class="jumbotron-heading">Album example</h1>
-          <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+          <h1 class="jumbotron-heading">Localhero</h1>
+          <p class="lead text-muted">Localhero to serwis pozwalający Ci zwrócić uwagę społeczeństwa na różne problemy pogarszające stan środowiska.</p>
+          <!--
+            <p class="lead text-muted">Możesz zgłosić nielegalne wysypiska śmieci, spalanie niedozwolonych przedmiotów lub jakąkolwiek inną formę zanieczysczania środowiska. W przypadku polepszenia sytuacji każdy użytkownik może o tym napisać.</p>
+          -->
+          <p class="lead text-muted">Globalne problemy zanieczyszczenia środowiska należy zacząć rozwiązywać od spraw lokalnych. Pamiętaj, przyszłość planety zależy od Ciebie!</p>
+          <?php if(!$signed_in):?>
           <p>
-            <a href="#" class="btn btn-primary my-2">Main call to action</a>
-            <a href="#" class="btn btn-secondary my-2">Secondary action</a>
+            <a href="index.php?page=sign_in" class="btn btn-primary my-2">Logowanie</a>
+            <a href="index.php?page=registration" class="btn btn-secondary my-2">Rejestracja</a>
           </p>
+          <?php endif;?>
         </div>
       </section>
      
@@ -15,28 +21,123 @@
     
 
       <div class="album py-5 bg-light">
-        <h2 class="text-center display-3" id="gallery-heading">Aktualne problemy</h2>
+        <?php
+        $error = 1;
+
+        $post = new Post();
+
+        if($post -> resultConnection)
+        {
+          $post -> getPopularPosts();
+          $post -> getNewPosts();
+
+          if($post -> resultGetPopularPosts && $post -> resultGetNewPosts)
+          {
+            $error = -1;
+          }
+        }
+
+
+        if($error = -1):
+        ?>
+        <style>
+
+.embed-responsive .card-img-top {
+    object-fit: cover;
+}
+
+        </style>
+
+
+
+        <h2 class="text-center display-3" id="gallery-heading">Problemy z dużym zainteresowaniem</h2>
         <div class="container">
           <div class="row">
-            <?php for($i = 1; $i <= 9; $i++): ?>
+            <?php for($i = 0; $i <= 2 && isset($post -> popularPosts[$i]['id']) && $post -> popularPosts[$i]['id'] != NULL; $i++): ?>
             <div class="col-md-4">
               <div class="card mb-4 box-shadow">
-                <img class="card-img-top" data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail" alt="Card image cap">
-                <div class="card-body">
-                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                  <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                      <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                      <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                    </div>
-                    <small class="text-muted">9 mins</small>
+                <div class="embed-responsive embed-responsive-4by3">
+                <a href="index.php?page=view_post&post_id=<?php echo $post -> popularPosts[$i]['id'];?>">
+                <img class="card-img-top embed-responsive-item" src="<?php
+                  $directory = 'img/photos_posts/'.$post -> popularPosts[$i]['id'];
+                  if(is_dir($directory))
+                  {
+                    $files = scandir ($directory);
+                    echo $directory . '/' . $files[2];
+                  }
+                  else
+                  {
+                    echo 'img/logo1.png';
+                  }
+                  ?>" alt="Card image cap"></a>
                   </div>
+                <div class="card-body">
+                  <h5 class="card-title"><?php echo $post -> popularPosts[$i]['title'];?></h5>
+                  <p class="card-text"><?php echo $post -> popularPosts[$i]['description'];?></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                  <a href="index.php?page=view_post&post_id=<?php echo $post -> popularPosts[$i]['id'];?>"><button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                    <small class="text-muted"><?php echo $post -> popularPosts[$i]['date'];?></small>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="material-icons">thumb_up</i>  <?php echo $post -> popularPosts[$i]['likes'];?></small>
+                  <small class="text-muted"><i class="material-icons">thumb_down</i>  <?php echo $post -> popularPosts[$i]['dislikes'];?></small>
+                </div>
                 </div>
               </div>
             </div>
             <?php endfor; ?>
           </div>
         </div>
+
+        <h2 class="text-center display-3" id="gallery-heading">Najnowsze problemy</h2>
+        <div class="container">
+          <div class="row">
+          <?php for($i = 0; $i <= 2 && isset($post -> newPosts[$i]['id']) && $post -> newPosts[$i]['id'] != NULL; $i++): ?>
+            <div class="col-md-4">
+              <div class="card mb-4 box-shadow">
+                <div class="embed-responsive embed-responsive-4by3">
+                <a href="index.php?page=view_post&post_id=<?php echo $post -> newPosts[$i]['id'];?>">
+                <img class="card-img-top embed-responsive-item" src="<?php
+                  $directory = 'img/photos_posts/'.$post -> newPosts[$i]['id'];
+                  if(is_dir($directory))
+                  {
+                    $files = scandir ($directory);
+                    echo $directory . '/' . $files[2];
+                  }
+                  else
+                  {
+                    echo 'img/logo1.png';
+                  }
+                  ?>" alt="Card image cap"></a>
+                  </div>
+                <div class="card-body">
+                  <h5 class="card-title"><?php echo $post -> newPosts[$i]['title'];?></h5>
+                  <p class="card-text"><?php echo $post -> newPosts[$i]['description'];?></p>
+                  <div class="d-flex justify-content-between align-items-center">
+                  <a href="index.php?page=view_post&post_id=<?php echo $post -> newPosts[$i]['id'];?>"><button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                    <small class="text-muted"><?php echo $post -> newPosts[$i]['date'];?></small>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="d-flex justify-content-between align-items-center">
+                  <small class="text-muted"><i class="material-icons">thumb_up</i>  <?php echo $post -> newPosts[$i]['likes'];?></small>
+                  <small class="text-muted"><i class="material-icons">thumb_down</i>  <?php echo $post -> newPosts[$i]['dislikes'];?></small>
+                </div>
+                </div>
+              </div>
+            </div>
+            <?php endfor; ?>
+          </div>
+        </div>
+
+        <?php endif;
+        if($error != -1)
+        {
+          echo '<p>Wystąpił błąd;</p>';
+        } ?>
+
       </div>
 
     </main>

@@ -31,6 +31,8 @@ class Post extends DBConnect
     public $resultGetUserCleanedUp = false;
     public $resultGetPostsMod = false;
     public $resultGetCleanedUpMod = false;
+    public $resultGetNewPosts = false;
+    public $resultGetPopularPosts = false;
 
 
     //data
@@ -47,6 +49,8 @@ class Post extends DBConnect
     public $onlyCleanedUp;
     public $postsMod;
     public $cleanedUpMod;
+    public $newPosts;
+    public $popularPosts;
 
 
     public function addPost($user_id, $title, $description, $lat, $lng, $status)
@@ -622,6 +626,56 @@ class Post extends DBConnect
         catch(PDOException $e)
 		{
 			$this -> resultGetCleanedUpMod = false;
+		}
+    }
+
+    public function getNewPosts()
+    {
+        try
+        {
+            $stmt = $this -> connection -> query('SELECT post.*,
+            (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS likes,
+            (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS dislikes
+            FROM post WHERE post.status="approved" ORDER BY post.id DESC LIMIT 0,3');
+
+            $i = 0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> newPosts[$i] = $row;
+                $i++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetNewPosts = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetNewPosts = false;
+		}
+    }
+
+    public function getPopularPosts()
+    {
+        try
+        {
+            $stmt = $this -> connection -> query('SELECT post.*,
+            (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS likes,
+            (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction, post WHERE post.id = post_reaction.id_post) AS dislikes
+            FROM post WHERE post.status="approved" ORDER BY likes DESC LIMIT 0,3');
+
+            $i = 0;
+			while($row = $stmt -> fetch())
+			{
+				$this -> popularPosts[$i] = $row;
+                $i++;
+			}
+            $stmt -> closeCursor();
+            unset($stmt);
+            $this -> resultGetPopularPosts = true;
+        }
+        catch(PDOException $e)
+		{
+			$this -> resultGetPopularPosts = false;
 		}
     }
 
