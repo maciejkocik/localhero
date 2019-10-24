@@ -2,18 +2,24 @@
  <main role="main">
      <section class="jumbotron text-center">
         <div class="container">
-          <h1 class="jumbotron-heading">Localhero</h1>
-          <p class="lead text-muted">Localhero to serwis pozwalający Ci zwrócić uwagę społeczeństwa na różne problemy pogarszające stan środowiska.</p>
+        <img id="main-logo" src="img/logo1.png">
+          <h1 class="jumbotron-heading">LocalHero</h1>
+          <p class="lead text-muted">LocalHero to serwis pozwalający Ci zwrócić uwagę społeczeństwa na różne problemy pogarszające stan środowiska.</p>
           <!--
             <p class="lead text-muted">Możesz zgłosić nielegalne wysypiska śmieci, spalanie niedozwolonych przedmiotów lub jakąkolwiek inną formę zanieczysczania środowiska. W przypadku polepszenia sytuacji każdy użytkownik może o tym napisać.</p>
           -->
           <p class="lead text-muted">Globalne problemy zanieczyszczenia środowiska należy zacząć rozwiązywać od spraw lokalnych. Pamiętaj, przyszłość planety zależy od Ciebie!</p>
           <?php if(!$signed_in):?>
           <p>
-            <a href="index.php?page=sign_in" class="btn btn-primary my-2">Logowanie</a>
-            <a href="index.php?page=registration" class="btn btn-secondary my-2">Rejestracja</a>
+            <a href="index.php?page=sign_in" class="btn btn-primary my-2">Zaloguj się</a>
+            <a href="index.php?page=registration" class="btn btn-secondary my-2">Zarejestruj się</a>
           </p>
-          <?php endif;?>
+          <?php else:?>
+          <p>
+            <a href="index.php?page=add_post" class="btn btn-primary my-2">Dodaj problem</a>
+          </p>
+          <?php endif; ?>
+            
         </div>
       </section>
      
@@ -41,14 +47,16 @@
         if($error = -1):
         ?>
         <style>
+
 .embed-responsive .card-img-top {
     object-fit: cover;
 }
+
         </style>
 
 
 
-        <h2 class="text-center display-3" id="gallery-heading">Problemy z dużym zainteresowaniem</h2>
+        <h2 class="text-center display-3" id="gallery-heading">Wyróżnione problemy</h2>
         <div class="container">
           <div class="row">
             <?php for($i = 0; $i <= 2 && isset($post -> popularPosts[$i]['id']) && $post -> popularPosts[$i]['id'] != NULL; $i++): ?>
@@ -89,7 +97,7 @@
           </div>
         </div>
 
-        <h2 class="text-center display-3" id="gallery-heading">Najnowsze problemy</h2>
+        <h2 class="text-center display-3" id="gallery-heading">Najnowsze</h2>
         <div class="container">
           <div class="row">
           <?php for($i = 0; $i <= 2 && isset($post -> newPosts[$i]['id']) && $post -> newPosts[$i]['id'] != NULL; $i++): ?>
