@@ -287,7 +287,9 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> query('SELECT * FROM post WHERE status = "approved"');
+            $stmt = $this -> connection -> query('SELECT post.id, post.id_user, post.title, post.date, post.lat, post.lng, post.status,
+            IF(CHAR_LENGTH(post.description) > 103, CONCAT(SUBSTR(post.description, 1, 100),"..."), post.description) AS description
+             FROM post WHERE status = "approved"');
             
             $i = 0;
 			while($row = $stmt -> fetch())
@@ -530,7 +532,9 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE id_user = :id_user ORDER BY id DESC LIMIT 0,20');
+            $stmt = $this -> connection -> prepare('SELECT post.id, post.id_user, post.title, post.date, post.lat, post.lng, post.status,
+            IF(CHAR_LENGTH(post.description) > 103, CONCAT(SUBSTR(post.description, 1, 100),"..."), post.description) AS description
+            FROM post WHERE id_user = :id_user ORDER BY id DESC LIMIT 0,20');
             
             $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
             $stmt ->execute();
@@ -555,7 +559,9 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE id_user = :id_user ORDER BY id DESC LIMIT 0,20');
+            $stmt = $this -> connection -> prepare('SELECT id, id_user, date, status, id_post
+            IF(CHAR_LENGTH(description) > 103, CONCAT(SUBSTR(description, 1, 100),"..."), post.description) AS description
+            FROM cleaned_up WHERE id_user = :id_user ORDER BY id DESC LIMIT 0,20');
             
             $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
             $stmt ->execute();
@@ -583,7 +589,9 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE status = :status ORDER BY id ASC LIMIT 0,60');
+            $stmt = $this -> connection -> prepare('SELECT post.id, post.id_user, post.title, post.date, post.lat, post.lng, post.status,
+            IF(CHAR_LENGTH(post.description) > 103, CONCAT(SUBSTR(post.description, 1, 100),"..."), post.description) AS description
+             FROM post WHERE status = :status ORDER BY id ASC LIMIT 0,60');
             
             $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
             $stmt ->execute();
@@ -608,7 +616,9 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE status = :status ORDER BY id ASC LIMIT 0,60');
+            $stmt = $this -> connection -> prepare('SELECT id, id_user, date, status, id_post
+            IF(CHAR_LENGTH(description) > 103, CONCAT(SUBSTR(description, 1, 100),"..."), post.description) AS description
+            FROM cleaned_up WHERE status = :status ORDER BY id ASC LIMIT 0,60');
             
             $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
             $stmt ->execute();
@@ -633,7 +643,8 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> query('SELECT post.*,
+            $stmt = $this -> connection -> query('SELECT post.id, post.id_user, post.title, post.date, post.lat, post.lng, post.status,
+            IF(CHAR_LENGTH(post.description) > 103, CONCAT(SUBSTR(post.description, 1, 100),"..."), post.description) AS description,
             (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS likes,
             (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS dislikes
             FROM post WHERE post.status="approved" ORDER BY post.id DESC LIMIT 0,3');
@@ -658,7 +669,8 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> query('SELECT post.*,
+            $stmt = $this -> connection -> query('SELECT post.id, post.id_user, post.title, post.date, post.lat, post.lng, post.status,
+            IF(CHAR_LENGTH(post.description) > 103, CONCAT(SUBSTR(post.description, 1, 100),"..."), post.description) AS description,
             (SELECT COUNT(IF(post_reaction.reaction = 1, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS likes,
             (SELECT COUNT(IF(post_reaction.reaction = 0, 1, NULL)) FROM post_reaction WHERE post.id = post_reaction.id_post) AS dislikes
             FROM post WHERE post.status="approved" ORDER BY likes DESC LIMIT 0,3');

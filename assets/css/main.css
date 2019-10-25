@@ -20,6 +20,14 @@ top:5px;
   }
 }
 
+
+.embed-responsive .card-img-top {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  }
+
+
 .jumbotron p:last-child {
   margin-bottom: 0;
 }
@@ -81,6 +89,3 @@ footer p {
     width:25%;
 }
 
-.embed-responsive .card-img-top {
-            object-fit: cover;
-        }
