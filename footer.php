@@ -2,6 +2,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js">
+        </script>
 
     <script>  
     var map, map2, map3;
@@ -17,24 +19,36 @@
         <?php if(!isset($_GET['page']) || $_GET['page'] == "add_post" || $_GET['page'] == "main_page"){ ?>
         map = new google.maps.Map(document.getElementById("map"), myOptions);
         
-        function addMarker(lat, lng){
-        var pt = new google.maps.LatLng(lat, lng);
-        var marker = new google.maps.Marker({
-            position: pt,
-            map: map
-        });
-        }
         
         <?php if(isset($post)) {
-                    $post -> getApprovedPostsForMap();
-                    $approved_posts = $post -> approvedPosts;
-                    for ($i = 0; $i < count($approved_posts); $i++){
-                        echo "addMarker(".$approved_posts[$i]['lat'].",".$approved_posts[$i]['lng'].");";
-                        //echo "console.log(".$approved_posts[$i]['lat'].");";
-                    }
-                }
-        }
         ?>
+            var locations = [
+                <?php
+                $post -> getApprovedPostsForMap();
+                $approved_posts = $post -> approvedPosts;
+                for ($i = 0; $i < count($approved_posts); $i++){
+                    echo "
+                    {lat: ".$approved_posts[$i]['lat'].", lng: ".$approved_posts[$i]['lng']."},";
+                } 
+                ?>
+            ]
+            
+            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        
+            var markers = locations.map(function(location, i) {
+              return new google.maps.Marker({
+                position: location,
+                label: labels[i % labels.length]
+              });
+            });
+
+        
+            var markerCluster = new MarkerClusterer(map, markers,
+            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+        
+        <?php }
+        
+        } ?>
   
   //map 2 - add_post
         <?php if($signed_in){ ?>
