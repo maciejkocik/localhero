@@ -71,7 +71,17 @@ switch($error)
             error("view_user", "danger", $_GET['error']);
         }
         
-        echo '<h1>Użytkownik: '.$user -> getUser['login'].'</h1>
+        echo '
+        
+        <style>
+        .embed-responsive .card-img-top {
+            object-fit: cover;
+        }
+                </style>
+        
+        
+        
+        <h1>Użytkownik: '.$user -> getUser['login'].'</h1>
         <p>data dołączenia: '.$user -> getUser['date'].'</p>
         <p>Punkty: '.$user -> reactionInfo['points'].', Posty: '.$user -> reactionInfo['posts'].', Posprzątania: '.$user -> reactionInfo['cleaned_up'].', Komentarze: '.$user -> reactionInfo['comments'].'</p>';
 
@@ -86,54 +96,79 @@ switch($error)
             <button>'.($user -> getUser['status'] == 1 ? 'Zablokuj użytkownika' : 'Przywróć użytkownika').'</button>
             </a>';
         }
-            echo '
-            <h2>Ostatnia Aktywność:</h2>';
+           
 
             if(isset($activity[0]['id']) && $activity[0]['id'] != NULL)
             {
+                echo '
+                <h2 class="text-center display-3" id="gallery-heading">Ostatnia Aktywność</h2>
+                <div class="container">
+                <div class="row">';
                 foreach($activity as $row)
                 {
                     if($row['status'] == 'approved' or ($signed_in && ($user -> getUser['id'] == $user_id or $user_mod)))
                     {
-                        echo '<div>
-                        
-                        <a href="index.php?page=view_post&post_id=';
                         if(isset($row['title']) && $row['title'] != NULL)
                         {
-                            echo $row['id'].'">
-                            
-                            <h3>'.$row['title'].'</h3>';
+                            $is_post = true;
                         }
                         else
                         {
-                            echo $row['id_post'].'">
-                            <h3>Posprzątano</h3>';
+                            $is_post = false;
                         }
-                        echo '</a>';
-
-                        echo '<p>'.$row['date'].'</p>
+                        echo'
+                        <div class="col-md-4">
+                        <div class="card mb-4 box-shadow">
+                            <div class="embed-responsive embed-responsive-4by3">
+                            <a href="index.php?page=view_post&post_id='.($is_post ? $row['id'] : $row['id_post']).'">
+                            <img class="card-img-top embed-responsive-item" src="';
+                            $directory = 'img/photos_'.($is_post ? 'posts' : 'cleaned_up').'/'.$row['id'];
+                            if(is_dir($directory))
+                            {
+                                $files = scandir ($directory);
+                                echo $directory . '/' . $files[2];
+                            }
+                            else
+                            {
+                                echo 'img/logo1.png';
+                            }
                         
-                        <p>'.$row['description'].'</p>';
+                        
+                        
+                            
+                            
+                            echo '" alt="Card image cap"></a>
+                            </div>
+                          <div class="card-body">
+                            <h5 class="card-title">'.($is_post ? 'Wpis: '.$row['title'] : 'Posprzątano').'</h5>
+                            <p class="card-text">'.$row['description'].'</p>
+                            <div class="d-flex justify-content-between align-items-center">';
+                            switch($row['status'])
+                            {
+                                case 'approved':
+                                {
+                                    break;
+                                }
+                                case 'removed':
+                                {
+                                    echo '<p>Post usunięty</p>';
+                                    break;
+                                }
+                                case 'waiting':
+                                {
+                                    echo '<p>Oczekuje na akceptację</p>';
+                                    break;
+                                }
+                            }
 
-                        switch($row['status'])
-                        {
-                            case 'approved':
-                            {
-                                break;
-                            }
-                            case 'removed':
-                            {
-                                echo '<p>Post usunięty</p>';
-                                break;
-                            }
-                            case 'waiting':
-                            {
-                                echo '<p>Oczekuje na akceptację</p>';
-                                break;
-                            }
-                        }
+                            echo '<a href="index.php?page=view_post&post_id='.($is_post ? $row['id'] : $row['id_post']).'<button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                              <small class="text-muted">'.$row['date'].'</small>
+                            </div>
+                          </div>
+                          </div>
+                        </div>';
+                        
 
-                        echo '</div>';
                     }
                 }
             }
