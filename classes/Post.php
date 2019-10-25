@@ -583,7 +583,7 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE status = :status ORDER BY id ASC LIMIT 0,30');
+            $stmt = $this -> connection -> prepare('SELECT * FROM post WHERE status = :status ORDER BY id ASC LIMIT 0,60');
             
             $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
             $stmt ->execute();
@@ -608,7 +608,7 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE status = :status ORDER BY id ASC LIMIT 0,30');
+            $stmt = $this -> connection -> prepare('SELECT * FROM cleaned_up WHERE status = :status ORDER BY id ASC LIMIT 0,60');
             
             $stmt -> bindParam(':status',$status,PDO::PARAM_STR);
             $stmt ->execute();
