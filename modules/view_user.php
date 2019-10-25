@@ -19,6 +19,7 @@ or $signed_in)
     $post = new Post();
 
 
+
     if($user -> resultConnection && $post -> resultConnection)
     {
         
@@ -26,6 +27,7 @@ or $signed_in)
 
         if($user -> resultGetUser && $user -> getUser['id'] != NULL &&(($signed_in && $user_mod) or $user -> getUser['status'] == 1))
         {
+            
             
             $start_id = 0;
             $table = array();
