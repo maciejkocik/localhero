@@ -40,7 +40,7 @@ switch($error)
 
         <div class="album py-5 bg-light">
         
-        <h2 class="text-center display-3" id="gallery-heading">Zablokowani użytkownicy</h2>
+        <h2 class="text-center display-4" id="gallery-heading">Zablokowani użytkownicy</h2>
         <div class="container">
           <div class="row">';
         if($user -> blockedUsersMod[0]['id']!= NULL)

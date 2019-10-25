@@ -226,14 +226,14 @@ echo '<div class="container" id="post">';
                             }
                             case 'removed':
                             {
-                                echo '<a class="btn btn-success" href="action.php?file=change_post_status&post_id='.$post_id.'&status=approved"><i class="material-icons">restore_from_trash </i> Przywróć</a>';
+                                echo '<a class="btn btn-success" href="action.php?file=change_post_status&post_id='.$post_id.'&status=approved"><i class="material-icons">restore_from_trash</i> Przywróć</a>';
                                 break;
                             }
                             case 'approved':
                             {
                                 if(!$this_user_post)
                                 {
-                                    echo '<a href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><button>Zmień status na niepubliczny</button></a>';
+                                    echo '<a class="btn btn-danger" href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><i class="material-icons">delete</i>Zmień status na niepubliczny</a>';
                                 }
                                 break;
                             }
@@ -253,7 +253,7 @@ echo '<div class="container" id="post">';
             {
                 if($post -> getPost['cu_status'] == 'waiting')
                 {
-                    echo '<p>Posprzątanie czeka na weryfikację przez moderatora</p>';
+                    echo '<p><span class="badge badge-warning mb-2">Czeka na weryfikację</span></p>';
                 }
 
                 if($post -> getPost['cu_status'] == 'approved' or ($signed_in && $user_mod == 1 or $this_user_clean_up))
@@ -321,6 +321,10 @@ echo '<div class="container" id="post">';
                 if($signed_in)
                 {
                     echo '<a class="btn btn-primary" href="index.php?page=add_cleaned_up&post_id='.$post_id.'"><i class="material-icons">add</i> Dodaj</a>';
+                }
+                else
+                {
+                    echo '<p>Zaloguj się, aby dodać posprzątanie.</p>';
                 }
             }
             

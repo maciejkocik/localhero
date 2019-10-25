@@ -38,7 +38,7 @@ switch($error)
 
         <div class="album py-5 bg-light">
         
-        <h2 class="text-center display-3" id="gallery-heading">Oczekujące wpisy</h2>
+        <h2 class="text-center display-4" id="gallery-heading">Oczekujące wpisy</h2>
         <div class="container">
           <div class="row">';
         if($post -> postsMod[0]['id']!= NULL)
