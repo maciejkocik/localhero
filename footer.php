@@ -74,7 +74,7 @@
         placeMarker(map2.getCenter(), map2);
         <?php } ?>
   
-  //map 3 - add_cleaned_up
+  //map 3 - view_post
         <?php if(isset($_GET['page']) && ($_GET['page'] == "view_post" || $_GET['page'] == 'add_cleaned_up') && isset($post)){
     
         echo 'var postLocation = {
@@ -91,8 +91,13 @@
         var postMarker = new google.maps.Marker({
                position: postLocation,
                map: map3,
-            });
+            });  
         
+        google.maps.event.addListener(postMarker, 'click', function() {
+            var url = "https://www.google.com/maps/search/?api=1&query="+postLocation.lat+","+postLocation.lng;
+            window.location.href = url;
+        });
+  
         <?php } ?>
    
   //getting user location
