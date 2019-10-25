@@ -61,7 +61,14 @@ switch($error)
     case -1:
     {
 
-        
+        if($signed_in && $user_mod && !$user -> getUser['moderator'])
+        {
+            $change = true;
+        }
+        else
+        {
+            $change = false;
+        }
         if(isset($_GET['info']))
         {
             error("view_user", "success", $_GET['info']);
@@ -80,29 +87,63 @@ switch($error)
                 </style>
         
         
+                
+        <div class="container">
+        <div class="row">
         
-        <h1>Użytkownik: '.$user -> getUser['login'].'</h1>
-        <p>data dołączenia: '.$user -> getUser['date'].'</p>
-        <p>Punkty: '.$user -> reactionInfo['points'].', Posty: '.$user -> reactionInfo['posts'].', Posprzątania: '.$user -> reactionInfo['cleaned_up'].', Komentarze: '.$user -> reactionInfo['comments'].'</p>';
+        <div '.($change ? 'class="col-lg-8"' :'').' style="width:100%;">
+                
+                
+        <h1 class="mt-4">'.$user -> getUser['login'].($user -> getUser['moderator'] ?'<em> ~ moderator</em>':'').'</h1>';
 
-        if($user -> getUser['status'] == 0)
-        {
-            echo '<p>Użytkownik zablokowany.</p>';
-        }
 
-        if($signed_in && $user_mod && !$user -> getUser['moderator'])
+        if($user -> getUser['status'] == 0) { echo '<span class="badge badge-danger mb-2">Użytkownik zablokowany</span><br>';}
+        echo '<hr>
+        <p class="lead">Data dołączenia: '.$user -> getUser['date'].'</p>
+        
+        <p class="lead">Punkty: '.$user -> reactionInfo['points'].'</p>
+        <p class="lead">Posty: '.$user -> reactionInfo['posts'].'</p>
+        <p class="lead">Posprzątania: '.$user -> reactionInfo['cleaned_up'].'</p>
+        <p class="lead">Komentarze: '.$user -> reactionInfo['comments'].'</p>
+        
+        </div>';
+
+        
+
+        if($change)
         {
-            echo '<a href="action.php?file=change_user_status&user_id='.$user -> getUser['id'].'&status='.($user -> getUser['status'] == 1 ? 0 : 1).'">
-            <button>'.($user -> getUser['status'] == 1 ? 'Zablokuj użytkownika' : 'Przywróć użytkownika').'</button>
-            </a>';
+            echo '
+            <div class="col-md-4">
+
+            <div class="card my-4">
+            <h5 class="card-header">Opcje</h5>
+            <div class="card-body">';
+
+            
+            
+
+            echo'
+            <a '.($user -> getUser['status'] == 1 ? 'class="btn btn-danger mb-2"' : 'class="btn btn-success"').' href="action.php?file=change_user_status&user_id='.$user -> getUser['id'].'&status='.($user -> getUser['status'] == 1 ? 0 : 1).'">
+            <i class="material-icons">'.($user -> getUser['status'] == 1 ? 'delete' : 'restore_from_trash').'</i>'.($user -> getUser['status'] == 1 ? 'Zablokuj użytkownika' : 'Przywróć użytkownika').'
+            </a>
+
+            </div>
+            </div>
+            
+            </div>';
         }
            
 
             if(isset($activity[0]['id']) && $activity[0]['id'] != NULL)
             {
                 echo '
-                <h2 class="text-center display-3" id="gallery-heading">Ostatnia aktywność</h2>
-                <div class="container">
+
+                </div>
+
+                <hr>
+                
+
+                <h2 class="text-center display-5" id="gallery-heading">Ostatnia aktywność</h2>
                 <div class="row">';
                 foreach($activity as $row)
                 {
@@ -174,7 +215,11 @@ switch($error)
             }
             else
             {
-                echo '<p>Brak aktywności.</p>';
+                echo '
+                </div>
+
+                <hr>
+                <p>Brak aktywności.</p>';
             }
 
 

@@ -27,8 +27,9 @@ switch($error)
         <div class="container">
           <div class="row">
         
-        <h2 style="margin-top:30px; margin-bottom:30px">Ranking lokalnych bohaterów</h2>
         
+        <h2 class="text-center display-4" style="margin-top:25px; margin-bottom:30px">Ranking lokalnych bohaterów</h2>
+
         <table class="table table-hover">
             <thead>
             <tr>
