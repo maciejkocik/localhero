@@ -108,14 +108,14 @@ switch($error)
 
             <div class="card my-4">
             <h5 class="card-header">Opcje</h5>
-            <div class="card-body">';
+            <div class="card-body text-center">';
 
             
             
 
             echo'
             <a '.($user -> getUser['status'] == 1 ? 'class="btn btn-danger mb-2"' : 'class="btn btn-success"').' href="action.php?file=change_user_status&user_id='.$user -> getUser['id'].'&status='.($user -> getUser['status'] == 1 ? 0 : 1).'">
-            <i class="material-icons">'.($user -> getUser['status'] == 1 ? 'delete' : 'restore_from_trash').'</i>'.($user -> getUser['status'] == 1 ? 'Zablokuj użytkownika' : 'Przywróć użytkownika').'
+            <i class="material-icons">'.($user -> getUser['status'] == 1 ? 'block' : 'restore').'</i> '.($user -> getUser['status'] == 1 ? 'Zablokuj użytkownika' : 'Przywróć użytkownika').'
             </a>
 
             </div>

@@ -60,7 +60,7 @@ switch($error)
                       
                       <p class="card-text">'.$row['description'].'</p>
                       <div class="d-flex justify-content-between align-items-center">
-                      <a href="index.php?page=view_post&post_id='.$row['id_post'].'<button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                      <a href="index.php?page=view_post&post_id='.$row['id_post'].'" class="btn btn-sm btn-outline-secondary">Zobacz</a>
                         <small class="text-muted">'.$row['date'].'</small>
                       </div>
                     </div>

@@ -87,19 +87,23 @@ echo '<div class="container" id="post">';
             
             echo '
             <div class="row">
-            <div class="col-lg-8">
+            <div class="col-lg-8 mt-4">
             ';
             
-            echo '<h1 class="mt-4">'.$post -> getPost['p_title'].'</h1>';
+            if($post -> getPost['p_status'] == 'removed') { echo '<span class="badge badge-danger mb-2">Wpis usunięty</span><br>';}
+            else if($post -> getPost['p_status'] == 'waiting') { echo '<span class="badge badge-warning mb-2">Czeka na weryfikację</span><br>';}
+            
+            echo '<h1>'.$post -> getPost['p_title'].'</h1>';
+            
                 
             echo '<p class="lead">
                     od
                     <a href="index.php?page=view_user&user_id='.$post -> getPost['p_id_user'].'">'.$post -> getPost['p_login'].'</a>';
                 
-            echo '<hr>';
-            echo '<p>'.$post -> getPost['p_date'].'</p>';
+            echo '<p>Dodano <strong>'.$post -> getPost['p_date'].'</strong></p>';
                 
-            echo '<hr>
+            echo '
+            <hr>
             
             <div id="map3"></div>
             
@@ -134,7 +138,9 @@ echo '<div class="container" id="post">';
             <hr>';
             
             $add_like = '';
-            $add_dislike ='';
+            $add_dislike = '';
+            $add_like_icon = '-outlined';
+            $add_dislike_icon = '-outlined';
 
             if($signed_in)
             {
@@ -143,19 +149,21 @@ echo '<div class="container" id="post">';
                     if($post -> reactionInfo['reaction'] == 1)
                     {
                         $add_like = 'style="font-weight:700;"';
+                        $add_like_icon = '';
                     }
                     else
                     {
                         $add_dislike = 'style="font-weight:700;"';
+                        $add_dislike_icon = '';
                     }
                 }
             }
             
             echo '<div>
             <a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_like == '' ? '1':'-1').'" >
-            <button class="btn btn-primary" '.$add_like.' '.($signed_in ? '':'disabled').'><i class="material-icons">thumb_up</i> Za: '.$post -> postReactions['likes'].'</button></a>
+            <button class="btn btn-primary" '.$add_like.' '.($signed_in ? '':'disabled').'><i class="material-icons'.$add_like_icon.'">thumb_up</i> Za: '.$post -> postReactions['likes'].'</button></a>
             <a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_dislike == '' ? '0':'-1').'">
-            <button class="btn btn-danger" '.$add_dislike.' '.($signed_in ? '':'disabled').'><i class="material-icons">thumb_down</i> Przeciw: '.$post -> postReactions['dislikes'].'</button></a>
+            <button class="btn btn-danger" '.$add_dislike.' '.($signed_in ? '':'disabled').'><i class="material-icons'.$add_dislike_icon.'">thumb_down</i> Przeciw: '.$post -> postReactions['dislikes'].'</button></a>
             </div>
             ';
             if($signed_in)
@@ -215,9 +223,6 @@ echo '<div class="container" id="post">';
                         }
                     }
                                         
-                    if($post -> getPost['p_status'] == 'removed') { echo '<span class="badge badge-danger mb-2">Wpis usunięty</span><br>';}
-                    else if($post -> getPost['p_status'] == 'waiting') { echo '<span class="badge badge-warning mb-2">Czeka na weryfikację</span><br>';}
-                    
                     if($user_mod)
                     {
                         switch($post -> getPost['p_status'])
@@ -237,7 +242,7 @@ echo '<div class="container" id="post">';
                             {
                                 if(!$this_user_post)
                                 {
-                                    echo '<a class="btn btn-danger" href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><i class="material-icons">delete</i>Zmień status na niepubliczny</a>';
+                                    echo '<a class="btn btn-danger" href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><i class="material-icons">delete</i> Zmień status na niepubliczny</a>';
                                 }
                                 break;
                             }
@@ -248,15 +253,15 @@ echo '<div class="container" id="post">';
                 }    
             
             
+             echo '
+            <div class="card my-4">
+              <h5 class="card-header">Posprzątaj</h5>
+            <div class="card-body">
+            ';
 
             
             if($post -> getPost['cu_id'] != NULL)
             {
-                echo '
-                <div class="card my-4">
-                  <h5 class="card-header">Posprzątaj</h5>
-                <div class="card-body">
-                ';
                 
                 if($post -> getPost['cu_status'] == 'waiting')
                 {
@@ -297,7 +302,7 @@ echo '<div class="container" id="post">';
                     }
 
                     
-                    echo '<h3>Posprzątano</h3>
+                    echo '<h3 class="mt-2">Posprzątano</h3>
                     
                     <p>'.$post -> getPost['cu_description'].'</p>';
 
@@ -313,7 +318,7 @@ echo '<div class="container" id="post">';
                             $files = array_diff($allFiles, array('.', '..'));
                             foreach($files as $file){
                                 echo '
-                                <div class="col-md-12 mt-4">
+                                <div class="col-md-12 mt-2">
                                 <a href="'.$directory . '/' . $file.'" data-fancybox="cleaned_up">
                                 <img src="'.$directory . '/' . $file.'" class="img-thumbnail">
                                 </a>
@@ -330,16 +335,13 @@ echo '<div class="container" id="post">';
                 if($signed_in)
                 {
                     echo '
-                    <div class="card my-4">
-                      <h5 class="card-header">Posprzątaj</h5>
-                        <div class="card-body">
                         <a class="btn btn-primary" href="index.php?page=add_cleaned_up&post_id='.$post_id.'">
                             <i class="material-icons">add</i> Dodaj
                         </a>';
                 }
                 else
                 {
-                    echo '<p>Zaloguj się, aby dodać posprzątanie.</p>';
+                    echo 'Zaloguj się, aby dodać posprzątanie.';
                 }
             }
             
@@ -355,6 +357,5 @@ echo '<div class="container" id="post">';
         
             }
 endif;
-if($error == 1) 
 
 ?>

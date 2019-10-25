@@ -40,6 +40,6 @@ $(document).ready(function(){
   </div>
 </div>   
 
-<?php }
-} else header("Location:index.php");
+<?php } 
+} 
 ?>
