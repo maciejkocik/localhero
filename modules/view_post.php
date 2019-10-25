@@ -120,7 +120,9 @@ echo '<div class="container" id="post">';
                     foreach($files as $file){
                         echo '
                         <div class="col-lg-4 mb-4">
+                        <a href="'.$directory . '/' . $file.'" data-fancybox="post">
                         <img src="'.$directory . '/' . $file.'" class="img-thumbnail">
+                        </a>
                         </div>';
                     }
                   }
@@ -194,7 +196,7 @@ echo '<div class="container" id="post">';
             }
             
             echo '</div>
-            <div class="col-md-4">';
+            <div class="col-lg-4">';
             
                 if($signed_in)
                 {
@@ -244,13 +246,16 @@ echo '<div class="container" id="post">';
                 }    
             
             
-            echo '
-            <div class="card my-4">
-              <h5 class="card-header">Posprzątaj</h5>
-                <div class="card-body">
-            ';
+
+            
             if($post -> getPost['cu_id'] != NULL)
             {
+                echo '
+                <div class="card my-4">
+                  <h5 class="card-header">Posprzątaj</h5>
+                <div class="card-body">
+                ';
+                
                 if($post -> getPost['cu_status'] == 'waiting')
                 {
                     echo '<p><span class="badge badge-warning mb-2">Czeka na weryfikację</span></p>';
@@ -307,7 +312,9 @@ echo '<div class="container" id="post">';
                             foreach($files as $file){
                                 echo '
                                 <div class="col-md-12 mt-4">
+                                <a href="'.$directory . '/' . $file.'" data-fancybox="cleaned_up">
                                 <img src="'.$directory . '/' . $file.'" class="img-thumbnail">
+                                </a>
                                 </div>';
                             }
                           }
@@ -320,7 +327,13 @@ echo '<div class="container" id="post">';
             {
                 if($signed_in)
                 {
-                    echo '<a class="btn btn-primary" href="index.php?page=add_cleaned_up&post_id='.$post_id.'"><i class="material-icons">add</i> Dodaj</a>';
+                    echo '
+                    <div class="card my-4">
+                      <h5 class="card-header">Posprzątaj</h5>
+                        <div class="card-body">
+                        <a class="btn btn-primary" href="index.php?page=add_cleaned_up&post_id='.$post_id.'">
+                            <i class="material-icons">add</i> Dodaj
+                        </a>';
                 }
                 else
                 {

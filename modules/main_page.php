@@ -56,7 +56,7 @@
 
 
 
-        <h2 class="text-center display-3" id="gallery-heading">Wyróżnione problemy</h2>
+        <h2 class="text-center display-4" id="gallery-heading">Wyróżnione problemy</h2>
         <div class="container">
           <div class="row">
             <?php for($i = 0; $i <= 2 && isset($post -> popularPosts[$i]['id']) && $post -> popularPosts[$i]['id'] != NULL; $i++): ?>
@@ -97,7 +97,7 @@
           </div>
         </div>
 
-        <h2 class="text-center display-3" id="gallery-heading">Najnowsze</h2>
+        <h2 class="text-center display-4" id="gallery-heading">Najnowsze</h2>
         <div class="container">
           <div class="row">
           <?php for($i = 0; $i <= 2 && isset($post -> newPosts[$i]['id']) && $post -> newPosts[$i]['id'] != NULL; $i++): ?>
