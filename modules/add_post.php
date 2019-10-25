@@ -61,5 +61,5 @@ if($signed_in){
 </div>
 
 <?php           
-} else header("Location:index.php?page=sign_in");
+} else include("modules/404.php");
 ?>

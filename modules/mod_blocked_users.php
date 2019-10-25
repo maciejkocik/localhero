@@ -44,7 +44,7 @@ switch($error)
                     <div class="card-body">
                       <h5 class="card-title">'.$row['login'].'</h5>
                       <div class="d-flex justify-content-between align-items-center">
-                      <a href="index.php?page=view_user&user_id='.$row['id'].'<button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                      <a href="index.php?page=view_user&user_id='.$row['id'].'" class="btn btn-sm btn-outline-secondary">Zobacz</a>
                         <small class="text-muted">Dołączył: '.$row['date'].'</small>
                       </div>
                     </div>

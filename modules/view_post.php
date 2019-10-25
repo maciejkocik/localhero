@@ -153,9 +153,9 @@ echo '<div class="container" id="post">';
             
             echo '<div>
             <a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_like == '' ? '1':'-1').'" >
-            <button class="btn btn-primary" '.$add_like.' '.($signed_in ? '':'disabled').'><i class="material-icons">thumb_up</i> Za: '.$post -> postReactions['likes'].'</button></a>
+            <button class="btn btn-primary" '.$add_like.' '.($signed_in ? '':'disabled').'><i class="material-icons-outlined">thumb_up</i> Za: '.$post -> postReactions['likes'].'</button></a>
             <a href="action.php?file=add_reaction_post&post_id='.$post_id.'&reaction='.($add_dislike == '' ? '0':'-1').'">
-            <button class="btn btn-danger" '.$add_dislike.' '.($signed_in ? '':'disabled').'><i class="material-icons">thumb_down</i> Przeciw: '.$post -> postReactions['dislikes'].'</button></a>
+            <button class="btn btn-danger" '.$add_dislike.' '.($signed_in ? '':'disabled').'><i class="material-icons-outlined">thumb_down</i> Przeciw: '.$post -> postReactions['dislikes'].'</button></a>
             </div>
             ';
             if($signed_in)
@@ -237,7 +237,7 @@ echo '<div class="container" id="post">';
                             {
                                 if(!$this_user_post)
                                 {
-                                    echo '<a class="btn btn-danger" href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><i class="material-icons">delete</i>Zmień status na niepubliczny</a>';
+                                    echo '<a class="btn btn-danger" href="action.php?file=change_post_status&post_id='.$post_id.'&status=removed"><i class="material-icons">delete</i> Zmień status na niepubliczny</a>';
                                 }
                                 break;
                             }
