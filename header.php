@@ -25,6 +25,8 @@ if(isset($_GET['page'])){
                     <?php if(!$signed_in): ?>
                         <ul class="nav navbar-nav">
                             <li class="nav-item"><a class="nav-link" href="index.php?page=ranking"><i class="material-icons">poll</i> Ranking</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php?page=map"><i class="material-icons">map</i> Mapa</a></li>
+
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item" role="presentation"><a class="nav-link <?php echo $active[0];?>" href="index.php">Strona główna</a></li>
@@ -35,6 +37,7 @@ if(isset($_GET['page'])){
                         <ul class="nav navbar-nav">
                             <li class="nav-item"><a class="nav-link" data-toggle="modal" data-target="#addPost" style="cursor:pointer;"><i class="material-icons">post_add</i> Dodaj problem</a></li>                        
                             <li class="nav-item"><a class="nav-link" href="index.php?page=ranking"><i class="material-icons">poll</i> Ranking</a></li>
+                            <li class="nav-item"><a class="nav-link" href="index.php?page=map"><i class="material-icons">map</i> Mapa</a></li>
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item dropdown">

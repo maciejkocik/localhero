@@ -19,7 +19,7 @@
             zoom: 5
         }
   //map 1 - main_page   
-        <?php if(!isset($_GET['page']) || $_GET['page'] == "add_post" || $_GET['page'] == "main_page"){ ?>
+        <?php if(!isset($_GET['page']) || $_GET['page'] == "add_post" || $_GET['page'] == "main_page" || $_GET['page'] == "map"){ ?>
         map = new google.maps.Map(document.getElementById("map"), myOptions);
         
         
