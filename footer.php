@@ -22,24 +22,37 @@
         
         <?php if(isset($post)) {
         ?>
+            var infoWin = new google.maps.InfoWindow();
+        
             var locations = [
                 <?php
                 $post -> getApprovedPostsForMap();
                 $approved_posts = $post -> approvedPosts;
+                $post_link1 = '<a href="index.php?page=view_post&post_id=';
+                $post_link2 = '">';
+                $post_link3 = '</a>';
                 for ($i = 0; $i < count($approved_posts); $i++){
                     echo "
-                    {lat: ".$approved_posts[$i]['lat'].", lng: ".$approved_posts[$i]['lng']."},";
+                {
+                    lat: ".$approved_posts[$i]['lat'].", 
+                    lng: ".$approved_posts[$i]['lng'].",
+                    info: '".$post_link1.$approved_posts[$i]['id'].$post_link2.$approved_posts[$i]['title'].$post_link3."'
+                },
+                    ";
                 } 
                 ?>
-            ]
+            ];
             
-            var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         
             var markers = locations.map(function(location, i) {
-              return new google.maps.Marker({
-                position: location,
-                label: labels[i % labels.length]
+              var marker = new google.maps.Marker({
+                position: location
               });
+             google.maps.event.addListener(marker, 'click', function(evt) {
+              infoWin.setContent(location.info);
+              infoWin.open(map, marker);
+            })
+            return marker;
             });
 
         
