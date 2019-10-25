@@ -101,7 +101,7 @@ switch($error)
             if(isset($activity[0]['id']) && $activity[0]['id'] != NULL)
             {
                 echo '
-                <h2 class="text-center display-3" id="gallery-heading">Ostatnia Aktywność</h2>
+                <h2 class="text-center display-3" id="gallery-heading">Ostatnia aktywność</h2>
                 <div class="container">
                 <div class="row">';
                 foreach($activity as $row)
@@ -161,7 +161,7 @@ switch($error)
                                 }
                             }
 
-                            echo '<a href="index.php?page=view_post&post_id='.($is_post ? $row['id'] : $row['id_post']).'<button type="button" class="btn btn-sm btn-outline-secondary">Zobacz</button></a>
+                            echo '<a class="btn btn-outline-secondary btn-sm" href="index.php?page=view_post&post_id='.($is_post ? $row['id'] : $row['id_post']).'">Zobacz</a>
                               <small class="text-muted">'.$row['date'].'</small>
                             </div>
                           </div>
