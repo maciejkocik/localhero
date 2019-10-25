@@ -16,7 +16,7 @@
           </p>
           <?php else:?>
           <p>
-            <a href="index.php?page=add_post" class="btn btn-primary my-2">Dodaj problem</a>
+            <a class="btn btn-primary" data-toggle="modal" data-target="#addPost" style="cursor:pointer; color:#fff;">Dodaj problem</a>
           </p>
           <?php endif; ?>
             
