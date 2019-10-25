@@ -97,7 +97,6 @@ echo '<div class="container" id="post">';
                     <a href="index.php?page=view_user&user_id='.$post -> getPost['p_id_user'].'">'.$post -> getPost['p_login'].'</a>';
                 
             echo '<hr>';
-            
             echo '<p>'.$post -> getPost['p_date'].'</p>';
                 
             echo '<hr>

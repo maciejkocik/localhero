@@ -103,11 +103,11 @@ class Post extends DBConnect
     {
         try
         {
-            $stmt = $this -> connection -> prepare('SELECT IF(user.id = post.id_user, user.login,NULL) AS p_login, IF(user.id = cleaned_up.id_user, user.login,NULL) AS cu_login,
+            $stmt = $this -> connection -> prepare('SELECT (SELECT user.login FROM user WHERE user.id = post.id_user) AS p_login, (SELECT user.login FROM user WHERE user.id = cleaned_up.id_user) AS cu_login,
             post.id AS p_id, post.id_user AS p_id_user, post.title AS p_title, post.description AS p_description, post.date AS p_date, post.lat AS p_lat, post.lng AS p_lng, post.status AS p_status,
             cleaned_up.id AS cu_id, cleaned_up.id_user AS cu_id_user, cleaned_up.description AS cu_description, cleaned_up.date AS cu_date, cleaned_up.status AS cu_status
             FROM (post LEFT JOIN cleaned_up ON post.id = cleaned_up.id_post), user 
-            WHERE post.id = :post_id');
+            WHERE post.id = :post_id GROUP BY post.id');
             
             $stmt -> bindParam(':post_id',$post_id,PDO::PARAM_INT);
             $stmt ->execute();
