@@ -1,4 +1,7 @@
 
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?language=en&key=AIzaSyD1mr6qboXBYoK6wqGPUShXB99Jw0_JGmE"></script>
+        <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
@@ -32,13 +35,15 @@
                 $post_link2 = '">';
                 $post_link3 = '</a>';
                 for ($i = 0; $i < count($approved_posts); $i++){
-                    echo "
-                {
-                    lat: ".$approved_posts[$i]['lat'].", 
-                    lng: ".$approved_posts[$i]['lng'].",
-                    info: '".$post_link1.$approved_posts[$i]['id'].$post_link2.$approved_posts[$i]['title'].$post_link3."'
-                },
-                    ";
+                    if(!empty($approved_posts[$i]['lat']) && !empty($approved_posts[$i]['lng'])){
+                        echo "
+                        {
+                        lat: ".$approved_posts[$i]['lat'].", 
+                        lng: ".$approved_posts[$i]['lng'].",
+                        info: '".$post_link1.$approved_posts[$i]['id'].$post_link2.$approved_posts[$i]['title'].$post_link3."'
+                        },
+                        ";
+                    }
                 } 
                 ?>
             ];
