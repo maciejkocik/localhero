@@ -215,7 +215,11 @@ switch($error)
             }
             else
             {
-                echo '<p>Brak aktywności.</p>';
+                echo '
+                </div>
+
+                <hr>
+                <p>Brak aktywności.</p>';
             }
 
 
