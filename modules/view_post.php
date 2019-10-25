@@ -109,7 +109,7 @@ echo '<div class="container" id="post">';
     
             echo '
             <h5 class="mt-0">Opis:</h5>
-            <p>'.$post -> getPost['p_description'].'</p>';
+            <p style="word-wrap: break-word;">'.$post -> getPost['p_description'].'</p>';
             
             echo '
             <div class="row my-2">';
