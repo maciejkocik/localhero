@@ -32,14 +32,15 @@
                 $approved_posts = $post -> approvedPosts;
                 $post_link1 = '<a href="index.php?page=view_post&post_id=';
                 $post_link2 = '">';
-                $post_link3 = '</a>';
                 for ($i = 0; $i < count($approved_posts); $i++){
                     if(!empty($approved_posts[$i]['lat']) && !empty($approved_posts[$i]['lng'])){
+                        $description = "";
+                        if(!empty($approved_posts[$i]['description'])) $description = preg_replace("/\r\n|\r|\n/",'<br>',$approved_posts[$i]['description']);
                         echo "
                         {
                         lat: ".$approved_posts[$i]['lat'].", 
                         lng: ".$approved_posts[$i]['lng'].",
-                        info: '".$post_link1.$approved_posts[$i]['id'].$post_link2.$approved_posts[$i]['title'].$post_link3."'
+                        info: '".$post_link1.$approved_posts[$i]['id'].$post_link2.$approved_posts[$i]['title']."</a><p>".$description."</p>"."'
                         },
                         ";
                     }
@@ -70,6 +71,7 @@
   //map 2 - add_post
         <?php if($signed_in){ ?>
         map2 = new google.maps.Map(document.getElementById("map2"), myOptions);
+        placeMarker(map2.getCenter(), map2);
         <?php } ?>
   
   //map 3 - add_cleaned_up
