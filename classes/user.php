@@ -117,8 +117,7 @@ class User extends DBConnect
             */
 
 
-            $stmt = $this -> connection -> prepare('SELECT user.*, COUNT(IF(user_reaction.reaction = 1, 1, NULL)) AS likes, COUNT(IF(user_reaction.reaction = 0, 1, NULL)) AS dislikes
-            FROM user, user_reaction WHERE user.id = :id_user ');
+            $stmt = $this -> connection -> prepare('SELECT user.* FROM user WHERE user.id = :id_user ');
             $stmt -> bindParam(':id_user',$user_id,PDO::PARAM_INT);
 
             $stmt ->execute();
