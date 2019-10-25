@@ -51,8 +51,6 @@ or $signed_in)
     }
 }
 
-
-
 switch($error)
 {
     case 1:
