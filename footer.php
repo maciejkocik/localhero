@@ -1,5 +1,4 @@
 
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?language=en&key=AIzaSyD1mr6qboXBYoK6wqGPUShXB99Jw0_JGmE"></script>
         <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.6/holder.min.js"></script>
