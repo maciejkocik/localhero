@@ -8,5 +8,4 @@
 </style>
 <?php $post = new Post(); ?>
 
-    <div id="map">
-    </div>
+<div id="map"></div>

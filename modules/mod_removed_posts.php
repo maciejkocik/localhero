@@ -28,16 +28,6 @@ switch($error)
 
         echo 
         '
-        <style>
-        .embed-responsive .card-img-top {
-            object-fit: cover;
-        }
-                </style>
-
-
-
-
-
         <div class="album py-5 bg-light">
         
         <h2 class="text-center display-4" id="gallery-heading">Wpisy usunięte lub ustawione jako prywatne</h2>

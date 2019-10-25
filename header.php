@@ -41,21 +41,21 @@ if(isset($_GET['page'])){
                         </ul>
                         <ul class="nav navbar-nav ml-auto">
                             <li class="nav-item dropdown">
-                                <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Witaj, <strong><?php echo $user_login; ?></strong><?php if($user_mod){ echo ' ~ moderator'; }?></a>
+                                <a class="dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Witaj, <strong><?php echo $user_login; ?></strong><?php if($user_mod){ echo '  <span class="badge badge-primary">Moderator</span>'; }?></a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <a class="dropdown-item" href="index.php?page=view_user">Panel użytkownika</a>
-                            <a class="dropdown-item" href="action.php?file=log_out">Wyloguj się</a>
                             <?php
                             
                             if($user_mod)
                             {                            
-                                echo '<a class="dropdown-item" href="index.php?page=mod_waiting_posts">Oczekujące wpisy ~ mod.</a>
-                                <a class="dropdown-item" href="index.php?page=mod_Removed_posts">Usunięte i prywatne wpisy ~ mod.</a>
-                                <a class="dropdown-item" href="index.php?page=mod_waiting_cleaned_up">Oczekujące posprzątania ~ mod.</a>
-                                <a class="dropdown-item" href="index.php?page=mod_blocked_users">Zablokowani użytkownicy ~ mod.</a>';
+                                echo '<a class="dropdown-item" href="index.php?page=mod_waiting_posts">Oczekujące wpisy</a>
+                                <a class="dropdown-item" href="index.php?page=mod_Removed_posts">Usunięte i prywatne wpisy</a>
+                                <a class="dropdown-item" href="index.php?page=mod_waiting_cleaned_up">Oczekujące posprzątania</a>
+                                <a class="dropdown-item" href="index.php?page=mod_blocked_users">Zablokowani użytkownicy</a>';
                             }
                             
                             ?>
+                            <a class="dropdown-item" href="index.php?page=view_user">Panel użytkownika</a>
+                            <a class="dropdown-item" href="action.php?file=log_out">Wyloguj się</a>
                             </div>
                             </li>
                         </ul>

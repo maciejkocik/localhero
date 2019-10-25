@@ -80,3 +80,7 @@ footer p {
     margin: 0 auto;
     width:25%;
 }
+
+.embed-responsive .card-img-top {
+            object-fit: cover;
+        }

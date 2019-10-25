@@ -102,7 +102,8 @@
               lng: position.coords.longitude
             };
             map2.setCenter(userLocation);
-            map2.setZoom(10);
+            map2.setZoom(12);
+            placeMarker(userLocation, map2);
           });
        }
   //marker for map2      

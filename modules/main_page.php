@@ -46,13 +46,6 @@
 
         if($error = -1):
         ?>
-        <style>
-
-.embed-responsive .card-img-top {
-    object-fit: cover;
-}
-
-        </style>
 
 
 

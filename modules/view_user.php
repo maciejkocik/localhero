@@ -60,6 +60,7 @@ switch($error)
     }
     case -1:
     {
+        echo '<div class="container mt-4">';
 
         if($signed_in && $user_mod && !$user -> getUser['moderator'])
         {
@@ -79,32 +80,22 @@ switch($error)
         }
         
         echo '
-        
-        <style>
-        .embed-responsive .card-img-top {
-            object-fit: cover;
-        }
-                </style>
-        
-        
-                
-        <div class="container">
         <div class="row">
         
         <div '.($change ? 'class="col-lg-8"' :'').' style="width:100%;">
                 
                 
-        <h1 class="mt-4">'.$user -> getUser['login'].($user -> getUser['moderator'] ?'<em> ~ moderator</em>':'').'</h1>';
+        <h1 class="mt-4">'.$user -> getUser['login'].($user -> getUser['moderator'] ?' <span class="badge badge-primary">Moderator</span>':'').'</h1>';
 
 
         if($user -> getUser['status'] == 0) { echo '<span class="badge badge-danger mb-2">Użytkownik zablokowany</span><br>';}
         echo '<hr>
-        <p class="lead">Data dołączenia: '.$user -> getUser['date'].'</p>
+        <p class="lead">Data dołączenia: <strong>'.$user -> getUser['date'].'</strong></p>
         
-        <p class="lead">Punkty: '.$user -> reactionInfo['points'].'</p>
-        <p class="lead">Posty: '.$user -> reactionInfo['posts'].'</p>
-        <p class="lead">Posprzątania: '.$user -> reactionInfo['cleaned_up'].'</p>
-        <p class="lead">Komentarze: '.$user -> reactionInfo['comments'].'</p>
+        <p class="lead">Punkty: <strong>'.$user -> reactionInfo['points'].'</strong></p>
+        <p class="lead">Posty: <strong>'.$user -> reactionInfo['posts'].'</strong></p>
+        <p class="lead">Posprzątania: <strong>'.$user -> reactionInfo['cleaned_up'].'</strong></p>
+        <p class="lead">Komentarze: <strong>'.$user -> reactionInfo['comments'].'</strong></p>
         
         </div>';
 
