@@ -3,11 +3,11 @@ LocalHero is a service that allows you to draw the public's attention to various
 
 Project initially made for HackHeroes 2019 hackathon.
 
-## Authors:
-Maciej Kocik
-Piotr Zatwarnicki
+## Authors
+- Maciej Kocik
+- Piotr Zatwarnicki
 
-## Technologies used:
+## Technologies used
 - PHP
 - HTML
 - CSS
